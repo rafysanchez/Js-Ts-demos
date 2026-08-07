@@ -1,0 +1,146 @@
+
+
+type Produto = {
+    id: number,
+    nome: string,
+    descricao: string,
+    preco: number,
+    disponivel: boolean
+}
+
+let itens: Produto[] = [
+    { id: 1, nome: 'Caneca', descricao: 'Caneca de cerâmica', preco: 29.9, disponivel: true },
+    { id: 2, nome: 'Caderno', descricao: 'Caderno brochura 100 folhas', preco: 15.5, disponivel: true },
+    { id: 3, nome: 'Mochila', descricao: 'Mochila esportiva', preco: 120.0, disponivel: false },
+    { id: 4, nome: 'Fone de ouvido', descricao: 'Fone Bluetooth', preco: 89.99, disponivel: true },
+    { id: 5, nome: 'Teclado', descricao: 'Teclado mecânico', preco: 249.0, disponivel: true },
+    { id: 6, nome: 'Mouse', descricao: 'Mouse óptico', preco: 79.9, disponivel: true },
+    { id: 7, nome: 'Livro', descricao: 'Livro de JavaScript', preco: 59.9, disponivel: false },
+    { id: 8, nome: 'Camiseta', descricao: 'Camiseta de algodão', preco: 39.0, disponivel: true },
+    { id: 9, nome: 'Relógio', descricao: 'Relógio digital', preco: 199.99, disponivel: true },
+    { id: 10, nome: 'Garrafa', descricao: 'Garrafa térmica', preco: 49.9, disponivel: true }
+];
+
+// Mesma coisa usando Set
+const itensSet: Set<Produto> = new Set(itens);
+
+// Adicionar novo produto (em Set, objetos são comparados por referência)
+itensSet.add({ id: 11, nome: 'Pen Drive', descricao: 'Pen Drive 32GB', preco: 39.9, disponivel: true });
+
+// Filtrar produtos disponíveis (converter para array ou criar novo Set a partir do filtro)
+const disponiveisSet = new Set([...itensSet].filter(produto => produto.disponivel));
+
+// Remover um produto pelo id (procurar referência e deletar)
+const idParaRemoverSet = 3;
+for (const p of itensSet) {
+    if (p.id === idParaRemoverSet) { itensSet.delete(p); break; }
+}
+
+// Atualizar o preço de um produto existente (remover referência antiga e adicionar novo objeto)
+const idParaAtualizarSet = 2;
+for (const p of itensSet) {
+    if (p.id === idParaAtualizarSet) {
+        itensSet.delete(p);
+        itensSet.add({ ...p, preco: p.preco + 5 });
+        break;
+    }
+}
+
+// Converter Set de volta para array quando necessário
+const itensArrayFromSet = [...itensSet];
+
+let simpleNumber = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 3, 5, 6, 8];
+
+// Exemplos de uso de Set com simpleNumber - métodos mais comuns
+// Criar um Set (remove duplicatas automaticamente)
+const setNumeros = new Set(simpleNumber);
+
+// add: adicionar um elemento
+setNumeros.add(11);
+
+// has: verificar existência
+const temCinco = setNumeros.has(5); // true
+
+// delete: remover elemento
+setNumeros.delete(3);
+
+// size: quantidade de elementos
+const tamanho = setNumeros.size;
+
+// forEach: iterar sobre o Set
+const elementos: number[] = [];
+setNumeros.forEach(n => elementos.push(n));
+
+// Converter de volta para array (spread ou Array.from)
+const arraySemDuplicatas = [...setNumeros];
+const arrayAlt = Array.from(setNumeros);
+
+// Operações comuns (união, interseção, diferença)
+const outros = new Set([5, 6, 12]);
+
+// União
+const uniao = new Set([...setNumeros, ...outros]);
+
+// Interseção
+const intersecao = new Set([...setNumeros].filter(x => outros.has(x)));
+
+// Diferença (setNumeros - outros)
+const diferenca = new Set([...setNumeros].filter(x => !outros.has(x)));
+
+
+
+
+
+// Exemplo de operações com arrays
+// Adicionar novo produto
+itens.push({ id: 11, nome: 'Pen Drive', descricao: 'Pen Drive 32GB', preco: 39.9, disponivel: true });
+
+// Filtrar produtos disponíveis
+const disponiveis = itens.filter(produto => produto.disponivel);
+
+// Remover um produto pelo id
+const idParaRemover = 3;
+itens = itens.filter(produto => produto.id !== idParaRemover);
+
+// Atualizar o preço de um produto existente
+const idParaAtualizar = 2;
+itens = itens.map(produto => produto.id === idParaAtualizar ? { ...produto, preco: produto.preco + 5 } : produto);
+
+// Operações com simpleNumber
+const numerosPares = simpleNumber.filter(n => n % 2 === 0);
+const quadrados = simpleNumber.map(n => n * n);
+const soma = simpleNumber.reduce((acc, n) => acc + n, 0);
+const existeMaiorQue5 = simpleNumber.some(n => n > 5);
+
+// nao apgue acima
+
+// use arrays para estudo abaixo desta linha - tudo acima mas com arrays ops
+const novoProdutoArray: Produto = {
+    id: 11,
+    nome: 'Pen Drive',
+    descricao: 'Pen Drive 32GB',
+    preco: 39.9,
+    disponivel: true
+};
+
+itens.push(novoProdutoArray);
+
+const disponiveisArray = itens.filter(produto => produto.disponivel);
+
+const idParaRemoverArray = 3;
+const itensSemRemovidoArray = itens.filter(produto => produto.id !== idParaRemoverArray);
+
+const idParaAtualizarArray = 2;
+const itensAtualizadosArray = itens.map(produto =>
+    produto.id === idParaAtualizarArray ? { ...produto, preco: produto.preco + 5 } : produto
+);
+
+const numerosParesArray = simpleNumber.filter(n => n % 2 === 0);
+const quadradosArray = simpleNumber.map(n => n * n);
+const somaArray = simpleNumber.reduce((acc, n) => acc + n, 0);
+const temNumeroMaiorQue5Array = simpleNumber.some(n => n > 5);
+
+const outroArray = [5, 6, 12];
+const uniaoArray = [...simpleNumber, ...outroArray];
+const intersecaoArray = simpleNumber.filter(n => outroArray.includes(n));
+const diferencaArray = simpleNumber.filter(n => !outroArray.includes(n)); 
