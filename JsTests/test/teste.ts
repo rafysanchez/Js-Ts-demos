@@ -11,7 +11,7 @@ export type Produto = {
     readonly disponivel: boolean;
 };
 
-export interface IProduct2{
+export interface IProduct2 {
     id: number,
     nome: string,
     descricao: string,
@@ -72,7 +72,8 @@ export const produtos: readonly Produto[] = [
     { id: 7, nome: "Livro", descricao: "Livro de JavaScript", preco: 59.9, disponivel: false },
     { id: 8, nome: "Camiseta", descricao: "Camiseta de algodao", preco: 39.0, disponivel: true },
     { id: 9, nome: "Relogio", descricao: "Relogio digital", preco: 199.99, disponivel: true },
-    { id: 10, nome: "Garrafa", descricao: "Garrafa termica", preco: 49.9, disponivel: true }
+    { id: 10, nome: "Garrafa", descricao: "Garrafa termica", preco: 49.9, disponivel: true },
+    { id: 10, nome: "Garrafa2", descricao: "Garrafa termica2", preco: 50.9, disponivel: true }
 ];
 
 export const numerosBase = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 3, 5, 6, 8] as const;

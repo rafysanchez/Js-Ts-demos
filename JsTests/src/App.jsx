@@ -270,7 +270,11 @@ function StudyBoard() {
         <StatCard label="Total" value={stats.total} hint="useMemo" />
         <StatCard label="Em progresso" value={stats.doing} hint="useReducer" />
         <StatCard label="Concluidas" value={stats.done} hint="useEffect" />
-        <StatCard label="Prioridade alta" value={stats.high} hint="useContext" />
+        <StatCard
+          label="Prioridade alta"
+          value={stats.high}
+          hint="useContext"
+        />
         <StatCard label="Story points" value={stats.points} hint="useState" />
       </section>
 
@@ -400,7 +404,9 @@ function StudyBoard() {
                   key={status}
                   type="button"
                   className={state.filter === status ? "active-filter" : ""}
-                  onClick={() => dispatch({ type: "set-filter", payload: status })}
+                  onClick={() =>
+                    dispatch({ type: "set-filter", payload: status })
+                  }
                 >
                   {status}
                 </button>
@@ -441,7 +447,9 @@ function StudyBoard() {
                     <button
                       type="button"
                       className="danger-button"
-                      onClick={() => dispatch({ type: "remove", payload: task.id })}
+                      onClick={() =>
+                        dispatch({ type: "remove", payload: task.id })
+                      }
                     >
                       remover
                     </button>
@@ -500,19 +508,27 @@ function AppShell() {
           </div>
 
           <div className="hero-actions">
-            <button type="button" className="ghost-button" onClick={toggleTheme}>
+            <button
+              type="button"
+              className="ghost-button"
+              onClick={toggleTheme}
+            >
               Tema: {theme}
             </button>
             <button
               type="button"
-              className={activeView === "board" ? "primary-button" : "ghost-button"}
+              className={
+                activeView === "board" ? "primary-button" : "ghost-button"
+              }
               onClick={() => setActiveView("board")}
             >
               Painel de tarefas
             </button>
             <button
               type="button"
-              className={activeView === "profile" ? "primary-button" : "ghost-button"}
+              className={
+                activeView === "profile" ? "primary-button" : "ghost-button"
+              }
               onClick={() => setActiveView("profile")}
             >
               Fale de voce
