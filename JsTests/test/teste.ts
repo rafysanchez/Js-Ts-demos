@@ -125,6 +125,21 @@ export const totalEmEstoque = produtos.reduce((total, produto) => total + produt
 export const produtoMaisCaro = produtos.reduce((maisCaro, produto) =>
     produto.preco > maisCaro.preco ? produto : maisCaro
 );
+
+export const produtoMaisBarato = produtos.reduce((maisBarato, produto) =>
+    produto.preco < maisBarato.preco ? produto : maisBarato
+);
+
+export const produtoMaisBaratoSeguro = produtos.reduce<Produto | null>(
+    (maisBarato, produto) => {
+        if (maisBarato === null) return produto;
+        return produto.preco < maisBarato.preco ? produto : maisBarato;
+    },
+    null
+);
+
+export const produtoMaisBaratoValido = produtos.every((produto) => produto.preco >= produtoMaisBarato.preco);
+
 export const nomesProdutos = produtos.map((produto) => produto.nome);
 export const resumoProdutos: ProdutoResumo[] = produtos.map(({ id, nome }) => ({ id, nome }));
 export const produtosAcimaDe100 = produtos.filter((produto) => produto.preco > 100);
