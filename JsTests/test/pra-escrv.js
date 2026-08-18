@@ -13,9 +13,9 @@ let itens = [
     { id: 4, name: 'Item 4', qtde: 40 },
     { id: 5, name: 'Item 5', qtde: 50 },
     { id: 6, name: 'Item 6', qtde: 60 },
-    { id: 7, name: 'Item 7', qtde: 70 },
+    { id: 7, name: 'Item 7', qtde: 5},
     { id: 8, name: 'Item 8', qtde: 80 },
-    { id: 9, name: 'Item 9', qtde: 90 }
+    { id: 9, name: 'Item 9', qtde: 8 }
 ];
 
 const getItembyId = (id) => {
@@ -38,5 +38,9 @@ const qtdTotal = () => {
 
 const exemploFilter = () => {
     return itens.filter(item => item.qtde > 50);
+}
+
+const sortByQtde = () => {
+    return itens.sort((a, b) => a.qtde - b.qtde);
 }   
 
