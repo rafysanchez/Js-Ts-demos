@@ -12,14 +12,15 @@ export type Produto = {
 };
 
 export interface IProduct2 {
-    id: number,
+    id: number;
     nome: string,
     descricao: string,
     preco: number,
     disponivel: boolean,
-    qtdEstoque: number
+    qtdEstoque?: number | null
 
-}
+};
+
 export const produtosComQtd: readonly IProduct2[] = [
     { id: 101, nome: "Caneca Especial", descricao: "Caneca de cerâmica decorada", preco: 34.9, disponivel: true, qtdEstoque: 25 },
     { id: 102, nome: "Caderno Premium", descricao: "Caderno capa dura 200 folhas", preco: 29.5, disponivel: true, qtdEstoque: 40 },
@@ -49,11 +50,17 @@ export const produtoEncontradoComQtd = produtosComQtd.find((produto) => produto.
 
 // 4. UPDATE - Atualizar item por ID
 export const produtosComQtdAtualizado = produtosComQtd.map((produto) =>
-    produto.id === 101 ? { ...produto, qtdEstoque: produto.qtdEstoque - 5 } : produto
+    produto.id === 101 ? { ...produto, qtdEstoque: (produto.qtdEstoque ?? 0) - 5 } : produto
 );
 
+export const produtosComQtdAtualizadoBloco = produtosComQtd.map((produto) => {
+    if (produto.id !== 101) return produto;
+
+    return { ...produto, qtdEstoque: (produto.qtdEstoque ?? 0) - 5 };
+});
+
 // 5. FILTER - Filtrar itens com disponibilidade e estoque
-export const produtosDisponivelComEstoque = produtosComQtd.filter((produto) => produto.disponivel && produto.qtdEstoque > 0);
+export const produtosDisponivelComEstoque = produtosComQtd.filter((produto) => produto.disponivel && (produto.qtdEstoque ?? 0) > 0);
 
 // 6. MAP - Mapear/transformar array extraindo apenas nomes e preços
 export const resumoPrecos = produtosComQtd.map((produto) => ({ nome: produto.nome, preco: produto.preco }));
@@ -203,5 +210,33 @@ export const produtosDisponiveisViaSet = [...produtoSetComNovo].filter((produto)
 // console.log("Set de produtos:", produtoSet);
 // console.log("Set com novo produto:", produtoSetComNovo);
 // console.log("Produtos disponiveis via Set:", produtosDisponiveisViaSet);
+
+// Exemplo simples com números primos
+// Declara e exporta uma função que recebe um número e devolve true ou false.
+export const ehPrimo = (numero: number): boolean => {
+    // Se o número for menor ou igual a 1, ele não é primo.
+    if (numero <= 1) return false;
+    // O número 2 é o único primo par, então retorna true.
+    if (numero === 2) return true;
+    // Se for divisível por 2 e não for o próprio 2, então não é primo.
+    if (numero % 2 === 0) return false;
+    // Testa apenas divisores ímpares a partir de 3 até a raiz quadrada do número.
+    for (let i = 3; i * i <= numero; i += 2) {
+        // Se existir algum divisor exato, o número não é primo.
+        if (numero % i === 0) return false;
+    }
+    // Se nenhum divisor foi encontrado, o número é primo.
+    return true;
+};
+
+// Cria um array com os números de 1 até 20.
+export const numerosDe1a20 = Array.from({ length: 20 }, (_, i) => i + 1);
+// Filtra do array apenas os números para os quais ehPrimo retorna true.
+export const primos = numerosDe1a20.filter(ehPrimo);
+// Filtra do array os números para os quais ehPrimo retorna false.
+export const naoPrimos = numerosDe1a20.filter((n) => !ehPrimo(n));
+
+// console.log("Números primos de 1 a 20:", primos);
+// console.log("Números não primos de 1 a 20:", naoPrimos);
 
 export { };
