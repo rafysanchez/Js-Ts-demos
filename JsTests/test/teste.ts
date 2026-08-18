@@ -45,6 +45,13 @@ export const produtosComQtdSemId104Slice = (() => {
     return [...produtosComQtd.slice(0, index), ...produtosComQtd.slice(index + 1)];
 })();
 
+// Mesma lógica sem IIFE: o índice é calculado antes, sem usar `();` no final.
+const indexProduto104 = produtosComQtd.findIndex((p) => p.id === 104);
+export const produtosComQtdSemId104SliceSemIife =
+    indexProduto104 === -1
+        ? [...produtosComQtd]
+        : [...produtosComQtd.slice(0, indexProduto104), ...produtosComQtd.slice(indexProduto104 + 1)];
+
 // 3. FIND - Encontrar um item específico
 export const produtoEncontradoComQtd = produtosComQtd.find((produto) => produto.id === 102);
 

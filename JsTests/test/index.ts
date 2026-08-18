@@ -118,3 +118,5 @@ const diferencaArray = novosNumeros.filter(n => !outroArray.includes(n));
 console.log('Número de produtos:', produtos.length);
 console.log('Números pares:', numerosPares);
 console.log('Soma:', soma);
+
+

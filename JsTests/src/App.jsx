@@ -13,6 +13,7 @@ import AboutYouProfile from "./AboutYouProfile";
 import "./App.css";
 
 const STORAGE_KEY = "hooks-study-board";
+const areaOptions = ["Frontend", "Backend", "Data", "QA", "Produto"];
 
 const ThemeContext = createContext(null);
 
@@ -329,11 +330,11 @@ function StudyBoard() {
                     }))
                   }
                 >
-                  <option>Frontend</option>
-                  <option>Backend</option>
-                  <option>Data</option>
-                  <option>QA</option>
-                  <option>Produto</option>
+                  {areaOptions.map((area) => (
+                    <option key={area} value={area}>
+                      {area}
+                    </option>
+                  ))}
                 </select>
               </div>
 
