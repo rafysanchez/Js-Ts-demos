@@ -39,14 +39,15 @@ export const produtosComQtdSemId104 = produtosComQtd.filter((produto) => produto
 
 // Alternativa usando slice para remover o item sem mutar o array original
 // encontra o índice do item com id 104 e reconstrói o array sem esse item
-export const produtosComQtdSemId104Slice = (() => {
-    const index = produtosComQtd.findIndex((p) => p.id === 104);
+export const produtosComQtdSemId104Slice = (id: number): IProduct2[] => {
+    const index = produtosComQtd.findIndex((p) => p.id === id);
     if (index === -1) return [...produtosComQtd]; // não encontrado, retorna cópia
     return [...produtosComQtd.slice(0, index), ...produtosComQtd.slice(index + 1)];
-})();
+};
 
 // Mesma lógica sem IIFE: o índice é calculado antes, sem usar `();` no final.
 const indexProduto104 = produtosComQtd.findIndex((p) => p.id === 104);
+
 export const produtosComQtdSemId104SliceSemIife =
     indexProduto104 === -1
         ? [...produtosComQtd]
@@ -65,6 +66,37 @@ export const produtosComQtdAtualizadoBloco = produtosComQtd.map((produto) => {
 
     return { ...produto, qtdEstoque: (produto.qtdEstoque ?? 0) - 5 };
 });
+
+// Versão com validação: se o estoque for zero, não subtrai; se for menor que zero,
+// retorna erro e mantém o estoque em 0.
+export const atualizarEstoqueComValidacao = (produto: IProduct2, quantidade: number): IProduct2 => {
+    const estoqueAtual = produto.qtdEstoque ?? 0;
+
+    // quantidade inválida
+    if (quantidade <= 0) {
+        console.error(`Erro: quantidade inválida para ${produto.nome}.`);
+        return { ...produto, qtdEstoque: estoqueAtual };
+    }
+
+    // estoque zerado ou sem itens
+    if (estoqueAtual <= 0) {
+        console.warn(`Aviso: ${produto.nome} está sem estoque. Estoque mantido em 0.`);
+        return { ...produto, qtdEstoque: 0 };
+    }
+
+    const novoEstoque = estoqueAtual - quantidade;
+
+    if (novoEstoque < 0) {
+        console.error(`Erro: estoque insuficiente para ${produto.nome}. Estoque atual: ${estoqueAtual}.`);
+        return { ...produto, qtdEstoque: 0 };
+    }
+
+    return { ...produto, qtdEstoque: novoEstoque };
+};
+
+export const produtosComQtdAtualizadoComValidacao = produtosComQtd.map((produto) =>
+    produto.id === 101 ? atualizarEstoqueComValidacao(produto, 5) : produto
+);
 
 // 5. FILTER - Filtrar itens com disponibilidade e estoque
 export const produtosDisponivelComEstoque = produtosComQtd.filter((produto) => produto.disponivel && (produto.qtdEstoque ?? 0) > 0);

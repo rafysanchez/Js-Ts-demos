@@ -171,19 +171,21 @@ function StudyBoard() {
   const hydratedRef = useRef(false);
 
   useEffect(() => {
-    const saved = window.localStorage.getItem(STORAGE_KEY);
-    if (!saved) {
-      hydratedRef.current = true;
-      return;
-    }
+    (() => {
+      const saved = window.localStorage.getItem(STORAGE_KEY);
+      if (!saved) {
+        hydratedRef.current = true;
+        return;
+      }
 
-    try {
-      dispatch({ type: "hydrate", payload: JSON.parse(saved) });
-    } catch {
-      window.localStorage.removeItem(STORAGE_KEY);
-    } finally {
-      hydratedRef.current = true;
-    }
+      try {
+        dispatch({ type: "hydrate", payload: JSON.parse(saved) });
+      } catch {
+        window.localStorage.removeItem(STORAGE_KEY);
+      } finally {
+        hydratedRef.current = true;
+      }
+    })();
   }, []);
 
   useEffect(() => {
