@@ -106,6 +106,9 @@ export const resumoPrecos = produtosComQtd.map((produto) => ({ nome: produto.nom
 
 export type ProdutoResumo = Pick<Produto, "id" | "nome">;
 
+export const selecionarDoisCampos = (lista: readonly Produto[]): ProdutoResumo[] =>
+    lista.map(({ id, nome }) => ({ id, nome }));
+
 
 
 export const produtos: readonly Produto[] = [

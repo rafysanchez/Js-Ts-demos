@@ -7,6 +7,7 @@ export interface Produto {
     descricao: string;
     preco: number;
     disponivel: boolean;
+    qtde?: number; // Quantidade opcional, caso seja necessário rastrear estoque
 }
 
 /**
@@ -38,6 +39,9 @@ produtosSet.add({ id: 11, nome: 'Pen Drive', descricao: 'Pen Drive 32GB', preco:
 
 // Verificar se tem produto disponível
 const temProdutoDisponivel = [...produtosSet].some(produto => produto.disponivel);
+
+// quais produtos estão disponíveis
+const produtosDisponiveisSet = [...produtosSet].filter(produto => produto.disponivel);
 
 // Remover um produto pelo id
 const idParaRemoverSet = 3;
@@ -100,14 +104,15 @@ produtos = produtos.filter(produto => produto.id !== idParaRemover);
 
 // Atualizar o preço de um produto existente (operação imutável)
 const idParaAtualizar = 2;
-produtos = produtos.map(produto => produto.id === idParaAtualizar ? { ...produto, preco: produto.preco + 5 } : produto);
+produtos = produtos.map(produto => produto.id === idParaAtualizar ?
+    { ...produto, preco: produto.preco + 5 } : produto);
 
 // Operações com arrays de números
 const numerosPares = novosNumeros.filter(n => n % 2 === 0);
 const quadrados = novosNumeros.map(n => n * n);
 const soma = novosNumeros.reduce((acc, n) => acc + n, 0);
 const existeMaiorQue5 = novosNumeros.some(n => n > 5);
-
+const quaisMaiorQue5 = novosNumeros.filter(n => n > 5);
 // Operações com arrays
 const outroArray = [5, 6, 12];
 const uniaoArray = [...novosNumeros, ...outroArray];
@@ -118,5 +123,5 @@ const diferencaArray = novosNumeros.filter(n => !outroArray.includes(n));
 console.log('Número de produtos:', produtos.length);
 console.log('Números pares:', numerosPares);
 console.log('Soma:', soma);
-
-
+console.log('Existe número maior que 5:', existeMaiorQue5);
+console.log('Números maiores que 5:', quaisMaiorQue5);

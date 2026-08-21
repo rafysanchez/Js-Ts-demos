@@ -1,28 +1,37 @@
 
 
-type Produto = {
-    id: number,
-    nome: string,
-    descricao: string,
-    preco: number,
-    disponivel: boolean
-}
+// type Produto = {
+//     id: number,
+//     nome: string,
+//     descricao: string,
+//     preco: number,
+//     disponivel: boolean
+// }
 
-let itens: Produto[] = [
-    { id: 1, nome: 'Caneca', descricao: 'Caneca de cerâmica', preco: 29.9, disponivel: true },
-    { id: 2, nome: 'Caderno', descricao: 'Caderno brochura 100 folhas', preco: 15.5, disponivel: true },
-    { id: 3, nome: 'Mochila', descricao: 'Mochila esportiva', preco: 120.0, disponivel: false },
-    { id: 4, nome: 'Fone de ouvido', descricao: 'Fone Bluetooth', preco: 89.99, disponivel: true },
-    { id: 5, nome: 'Teclado', descricao: 'Teclado mecânico', preco: 249.0, disponivel: true },
-    { id: 6, nome: 'Mouse', descricao: 'Mouse óptico', preco: 79.9, disponivel: true },
-    { id: 7, nome: 'Livro', descricao: 'Livro de JavaScript', preco: 59.9, disponivel: false },
-    { id: 8, nome: 'Camiseta', descricao: 'Camiseta de algodão', preco: 39.0, disponivel: true },
-    { id: 9, nome: 'Relógio', descricao: 'Relógio digital', preco: 199.99, disponivel: true },
-    { id: 10, nome: 'Garrafa', descricao: 'Garrafa térmica', preco: 49.9, disponivel: true }
+let itens= [
+    { id: 1, nome: 'Caneca', descricao: 'Caneca de cerâmica', preco: 29.9, disponivel: true, qtde: null },
+    { id: 2, nome: 'Caderno', descricao: 'Caderno brochura 100 folhas', preco: 15.5, disponivel: true, qtde: null },
+    { id: 3, nome: 'Mochila', descricao: 'Mochila esportiva', preco: 120.0, disponivel: false, qtde: null },
+    { id: 4, nome: 'Fone de ouvido', descricao: 'Fone Bluetooth', preco: 89.99, disponivel: true, qtde: null },
+    { id: 5, nome: 'Teclado', descricao: 'Teclado mecânico', preco: 249.0, disponivel: true, qtde: null },
+    { id: 6, nome: 'Mouse', descricao: 'Mouse óptico', preco: 79.9, disponivel: true, qtde: null },
+    { id: 7, nome: 'Livro', descricao: 'Livro de JavaScript', preco: 59.9, disponivel: false, qtde: null },
+    { id: 8, nome: 'Camiseta', descricao: 'Camiseta de algodão', preco: 39.0, disponivel: true, qtde: null },
+    { id: 9, nome: 'Relógio', descricao: 'Relógio digital', preco: 199.99, disponivel: true, qtde: null },
+    { id: 10, nome: 'Garrafa', descricao: 'Garrafa térmica', preco: 49.9, disponivel: true, qtde: null }
 ];
 
-// Mesma coisa usando Set
-const itensSet: Set<Produto> = new Set(itens);
+// com arrays - adicionar novo produto
+itens.push({ id: 11, nome: 'Pen Drive', descricao: 'Pen Drive 32GB', preco: 39.9, disponivel: true });
+//com arrays remover item id = 1
+itens = itens.filter(item => item.id !== 1);
+// exemplo de atualizar preço do item id = 2
+itens = itens.map(item => item.id === 2 ? { ...item, preco: item.preco + 5 } : item);
+// atualizar qtde item id = 9
+itens = itens.map(item => item.id === 9 ? { ...item, qtde: 10 } : item);
+
+// Mesma coisa usando Set 
+const itensSet= new Set(itens);
 
 // Adicionar novo produto (em Set, objetos são comparados por referência)
 itensSet.add({ id: 11, nome: 'Pen Drive', descricao: 'Pen Drive 32GB', preco: 39.9, disponivel: true });
@@ -122,7 +131,7 @@ const numerosBaseArray = [...simpleNumber];
 const opcaoNumerosCrescente = [...numerosBaseArray].sort((a, b) => a - b);
 console.log('Opção - números em ordem crescente:', opcaoNumerosCrescente);
 
-const novoProdutoArray: Produto = {
+const novoProdutoArray = {
     id: 11,
     nome: 'Pen Drive',
     descricao: 'Pen Drive 32GB',
