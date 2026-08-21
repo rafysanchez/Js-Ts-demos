@@ -72,7 +72,7 @@ numerosSet.add(11);
 numerosSet.delete(3);
 const tamanho = numerosSet.size;
 
-const elementos: number[] = Array.from(numerosSet);
+const elementos= Array.from(numerosSet);
 
 // Operações com Sets (união, interseção, diferença)
 const outrosNumeros = new Set([5, 6, 12]);
