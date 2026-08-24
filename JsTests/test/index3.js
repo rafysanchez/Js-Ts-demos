@@ -106,6 +106,9 @@ itens = itens.map((item) =>
 // atualizar qtde item id = 9
 itens = itens.map((item) => (item.id === 9 ? { ...item, qtde: 10 } : item));
 
+// colocar em ordem crescente pelo preço
+itens.sort((a, b) => a.preco - b.preco);
+
 // Mesma coisa usando Set
 const itensSet = new Set(itens);
 
@@ -145,6 +148,32 @@ for (const p of itensSet) {
 // Converter Set de volta para array quando necessário
 const itensArrayFromSet = [...itensSet];
 
+// Operações com itensArrayFromSet
+// add novo produto
+itensArrayFromSet.push({
+  id: 12,
+  nome: "Cadeira",
+  descricao: "Cadeira de escritório",
+  preco: 299.9,
+  disponivel: true,
+});
+
+// Filtrar produtos disponíveis
+const disponiveisArrayFromSet = itensArrayFromSet.filter(
+  (produto) => produto.disponivel,
+);
+
+// Remover um produto pelo id
+const idParaRemoverArrayFromSet = 4;
+const itensSemRemovidoArrayFromSet = itensArrayFromSet.filter(
+  (produto) => produto.id !== idParaRemoverArrayFromSet,
+);
+
+// ordenar por preço
+const itensOrdenadosPorPrecoArrayFromSet = [...itensArrayFromSet].sort(
+  (a, b) => a.preco - b.preco,
+);
+
 let simpleNumber = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 3, 5, 6, 8];
 
 // Exemplos de uso de Set com simpleNumber - métodos mais comuns
@@ -154,6 +183,13 @@ const setNumeros = new Set(simpleNumber);
 // add: adicionar um elemento
 setNumeros.add(11);
 
+// atualizar um valor: Set não possui update; remova o antigo e adicione o novo
+const numeroAtualizado = 4;
+setNumeros.delete(numeroAtualizado);
+setNumeros.add(40);
+
+// em ordem crecente setNumero
+const setNumerosOrdenados = new Set([...setNumeros].sort((a, b) => a - b));
 // has: verificar existência
 const temCinco = setNumeros.has(5); // true
 
@@ -254,12 +290,13 @@ const indiceProdutoArray = itensBaseArray.findIndex(
   (produto) => produto.nome === "Mouse",
 );
 const totalEstoqueArray = itensBaseArray.reduce(
-  (acc, produto) => acc + produto.preco,
+  (acc, produto) => acc + produto.qtde,
   0,
 );
 const produtoMaisCaroArray = itensBaseArray.reduce((maisCaro, produto) =>
   produto.preco > maisCaro.preco ? produto : maisCaro,
 );
+
 const nomesProdutosArray = itensBaseArray.map((produto) => produto.nome);
 const nomeEIdArray = itensBaseArray.map((produto) => ({
   id: produto.id,
