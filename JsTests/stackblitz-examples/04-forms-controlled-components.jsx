@@ -2,21 +2,69 @@
 // FORMS & CONTROLLED COMPONENTS IN REACT
 // ============================================
 
-import { useState } from 'react';
+import { useState } from "react";
+
+const sectionStyle = {
+  marginBottom: "30px",
+  padding: "15px",
+  background: "#f5f5f5",
+  borderRadius: "8px",
+};
+
+const previewStyle = {
+  marginTop: "10px",
+  padding: "10px",
+  background: "#f0f0f0",
+  borderRadius: "6px",
+};
+
+const inputStyle = {
+  display: "block",
+  width: "100%",
+  marginBottom: "10px",
+  padding: "8px",
+  boxSizing: "border-box",
+};
+
+function AddressFields({ address, onChange }) {
+  const fields = [
+    { name: "street", placeholder: "Street" },
+    { name: "district", placeholder: "District" },
+    { name: "city", placeholder: "City" },
+    { name: "state", placeholder: "State" },
+  ];
+
+  return (
+    <div style={previewStyle}>
+      <strong>Address</strong>
+      {fields.map((field) => (
+        <input
+          key={field.name}
+          type="text"
+          name={field.name}
+          value={address[field.name]}
+          onChange={onChange}
+          placeholder={field.placeholder}
+          style={{ ...inputStyle, marginTop: "10px", marginBottom: 0 }}
+        />
+      ))}
+    </div>
+  );
+}
 
 // Example 1: Basic Controlled Input
 function BasicInputExample() {
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
 
   return (
     <div>
       <input
         type="text"
         value={name}
-        onChange={(e) => setName(e.target.value)}
+        onChange={(event) => setName(event.target.value)}
         placeholder="Enter your name"
       />
-      <p>Hello, {name || 'stranger'}!</p>
+      <p>Hello, {name || "stranger"}!</p>
     </div>
   );
 }
@@ -24,17 +72,36 @@ function BasicInputExample() {
 // Example 2: Multiple Inputs
 function MultipleInputsExample() {
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    address: {
+      street: "",
+      district: "",
+      city: "",
+      state: "",
+    },
   });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setFormData((currentData) => ({
+      ...currentData,
       [name]: value,
-    });
+    }));
+  };
+
+  const handleAddressChange = (event) => {
+    const { name, value } = event.target;
+
+    setFormData((currentData) => ({
+      ...currentData,
+      address: {
+        ...currentData.address,
+        [name]: value,
+      },
+    }));
   };
 
   return (
@@ -45,6 +112,7 @@ function MultipleInputsExample() {
         value={formData.firstName}
         onChange={handleChange}
         placeholder="First Name"
+        style={inputStyle}
       />
       <input
         type="text"
@@ -52,6 +120,7 @@ function MultipleInputsExample() {
         value={formData.lastName}
         onChange={handleChange}
         placeholder="Last Name"
+        style={inputStyle}
       />
       <input
         type="email"
@@ -59,28 +128,35 @@ function MultipleInputsExample() {
         value={formData.email}
         onChange={handleChange}
         placeholder="Email"
+        style={inputStyle}
       />
-      <div style={{ marginTop: '10px', padding: '10px', background: '#f0f0f0' }}>
+
+      <div style={previewStyle}>
         <strong>Name:</strong> {formData.firstName} {formData.lastName}
         <br />
-        <strong>Email:</strong> {formData.email}
+        <strong>Email:</strong> {formData.email || "Not informed"}
       </div>
+
+      <AddressFields
+        address={formData.address}
+        onChange={handleAddressChange}
+      />
     </div>
   );
 }
 
 // Example 3: Textarea
 function TextareaExample() {
-  const [message, setMessage] = useState('');
+  const [message, setMessage] = useState("");
 
   return (
     <div>
       <textarea
         value={message}
-        onChange={(e) => setMessage(e.target.value)}
+        onChange={(event) => setMessage(event.target.value)}
         placeholder="Write your message..."
         rows="4"
-        style={{ width: '100%' }}
+        style={{ width: "100%" }}
       />
       <p>Character count: {message.length}</p>
     </div>
@@ -89,18 +165,21 @@ function TextareaExample() {
 
 // Example 4: Select Dropdown
 function SelectExample() {
-  const [country, setCountry] = useState('');
+  const [country, setCountry] = useState("");
 
   return (
     <div>
-      <select value={country} onChange={(e) => setCountry(e.target.value)}>
+      <select
+        value={country}
+        onChange={(event) => setCountry(event.target.value)}
+      >
         <option value="">Select a country</option>
         <option value="usa">United States</option>
         <option value="canada">Canada</option>
         <option value="uk">United Kingdom</option>
         <option value="germany">Germany</option>
       </select>
-      <p>Selected: {country || 'None'}</p>
+      <p>Selected: {country || "None"}</p>
     </div>
   );
 }
@@ -115,11 +194,11 @@ function CheckboxExample() {
         <input
           type="checkbox"
           checked={isChecked}
-          onChange={(e) => setIsChecked(e.target.checked)}
-        />
-        {' '}I agree to the terms and conditions
+          onChange={(event) => setIsChecked(event.target.checked)}
+        />{" "}
+        I agree to the terms and conditions
       </label>
-      <p>Status: {isChecked ? '✅ Agreed' : '❌ Not agreed'}</p>
+      <p>Status: {isChecked ? "Agreed" : "Not agreed"}</p>
     </div>
   );
 }
@@ -128,37 +207,37 @@ function CheckboxExample() {
 function MultipleCheckboxesExample() {
   const [selectedHobbies, setSelectedHobbies] = useState([]);
 
-  const hobbies = ['Reading', 'Gaming', 'Cooking', 'Traveling'];
+  const hobbies = ["Reading", "Gaming", "Cooking", "Traveling"];
 
   const handleCheckboxChange = (hobby) => {
-    if (selectedHobbies.includes(hobby)) {
-      setSelectedHobbies(selectedHobbies.filter((h) => h !== hobby));
-    } else {
-      setSelectedHobbies([...selectedHobbies, hobby]);
-    }
+    setSelectedHobbies((currentHobbies) =>
+      currentHobbies.includes(hobby)
+        ? currentHobbies.filter((item) => item !== hobby)
+        : [...currentHobbies, hobby],
+    );
   };
 
   return (
     <div>
       <h4>Select your hobbies:</h4>
       {hobbies.map((hobby) => (
-        <label key={hobby} style={{ display: 'block' }}>
+        <label key={hobby} style={{ display: "block" }}>
           <input
             type="checkbox"
             checked={selectedHobbies.includes(hobby)}
             onChange={() => handleCheckboxChange(hobby)}
-          />
-          {' '}{hobby}
+          />{" "}
+          {hobby}
         </label>
       ))}
-      <p>Selected: {selectedHobbies.join(', ') || 'None'}</p>
+      <p>Selected: {selectedHobbies.join(", ") || "None"}</p>
     </div>
   );
 }
 
 // Example 7: Radio Buttons
 function RadioButtonExample() {
-  const [selectedGender, setSelectedGender] = useState('');
+  const [selectedGender, setSelectedGender] = useState("");
 
   return (
     <div>
@@ -168,32 +247,32 @@ function RadioButtonExample() {
           type="radio"
           name="gender"
           value="male"
-          checked={selectedGender === 'male'}
-          onChange={(e) => setSelectedGender(e.target.value)}
-        />
-        {' '}Male
+          checked={selectedGender === "male"}
+          onChange={(event) => setSelectedGender(event.target.value)}
+        />{" "}
+        Male
       </label>
-      <label style={{ marginLeft: '10px' }}>
+      <label style={{ marginLeft: "10px" }}>
         <input
           type="radio"
           name="gender"
           value="female"
-          checked={selectedGender === 'female'}
-          onChange={(e) => setSelectedGender(e.target.value)}
-        />
-        {' '}Female
+          checked={selectedGender === "female"}
+          onChange={(event) => setSelectedGender(event.target.value)}
+        />{" "}
+        Female
       </label>
-      <label style={{ marginLeft: '10px' }}>
+      <label style={{ marginLeft: "10px" }}>
         <input
           type="radio"
           name="gender"
           value="other"
-          checked={selectedGender === 'other'}
-          onChange={(e) => setSelectedGender(e.target.value)}
-        />
-        {' '}Other
+          checked={selectedGender === "other"}
+          onChange={(event) => setSelectedGender(event.target.value)}
+        />{" "}
+        Other
       </label>
-      <p>Selected: {selectedGender || 'None'}</p>
+      <p>Selected: {selectedGender || "None"}</p>
     </div>
   );
 }
@@ -201,21 +280,23 @@ function RadioButtonExample() {
 // Example 8: Form Submission
 function FormSubmissionExample() {
   const [formData, setFormData] = useState({
-    username: '',
-    password: '',
+    username: "",
+    password: "",
   });
   const [submitted, setSubmitted] = useState(false);
 
-  const handleChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setFormData((currentData) => ({
+      ...currentData,
+      [name]: value,
+    }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    console.log("Form submitted:", formData);
     setSubmitted(true);
     setTimeout(() => setSubmitted(false), 3000);
   };
@@ -239,16 +320,16 @@ function FormSubmissionExample() {
           onChange={handleChange}
           placeholder="Password"
           required
-          style={{ marginTop: '10px' }}
+          style={{ marginTop: "10px" }}
         />
         <br />
-        <button type="submit" style={{ marginTop: '10px' }}>
+        <button type="submit" style={{ marginTop: "10px" }}>
           Submit
         </button>
       </form>
       {submitted && (
-        <div style={{ marginTop: '10px', color: 'green' }}>
-          ✅ Form submitted successfully!
+        <div style={{ marginTop: "10px", color: "green" }}>
+          Form submitted successfully!
         </div>
       )}
     </div>
@@ -257,25 +338,29 @@ function FormSubmissionExample() {
 
 // Example 9: Form Validation
 function FormValidationExample() {
-  const [email, setEmail] = useState('');
-  const [error, setError] = useState('');
+  const [email, setEmail] = useState("");
+  const [error, setError] = useState("");
 
-  const validateEmail = (email) => {
+  const validateEmail = (value) => {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
+    return regex.test(value);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    
+  const handleSubmit = (event) => {
+    event.preventDefault();
+
     if (!email) {
-      setError('Email is required');
-    } else if (!validateEmail(email)) {
-      setError('Please enter a valid email');
-    } else {
-      setError('');
-      alert('Email is valid!');
+      setError("Email is required");
+      return;
     }
+
+    if (!validateEmail(email)) {
+      setError("Please enter a valid email");
+      return;
+    }
+
+    setError("");
+    alert("Email is valid!");
   };
 
   return (
@@ -283,16 +368,16 @@ function FormValidationExample() {
       <input
         type="text"
         value={email}
-        onChange={(e) => {
-          setEmail(e.target.value);
-          setError('');
+        onChange={(event) => {
+          setEmail(event.target.value);
+          setError("");
         }}
         placeholder="Enter email"
       />
-      <button type="submit" style={{ marginLeft: '10px' }}>
+      <button type="submit" style={{ marginLeft: "10px" }}>
         Validate
       </button>
-      {error && <p style={{ color: 'red' }}>{error}</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
     </form>
   );
 }
@@ -300,166 +385,189 @@ function FormValidationExample() {
 // Example 10: Complete Registration Form
 function RegistrationFormExample() {
   const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    age: '',
-    gender: '',
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    age: "",
+    gender: "",
     termsAccepted: false,
   });
-
   const [errors, setErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
 
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target;
-    setFormData({
-      ...formData,
-      [name]: type === 'checkbox' ? checked : value,
-    });
+  const handleChange = (event) => {
+    const { name, value, type, checked } = event.target;
+
+    setFormData((currentData) => ({
+      ...currentData,
+      [name]: type === "checkbox" ? checked : value,
+    }));
   };
 
   const validate = () => {
-    const newErrors = {};
+    const nextErrors = {};
 
-    if (!formData.username) newErrors.username = 'Username is required';
-    if (!formData.email) newErrors.email = 'Email is required';
-    if (!formData.password) newErrors.password = 'Password is required';
+    if (!formData.username.trim()) nextErrors.username = "Username is required";
+    if (!formData.email.trim()) nextErrors.email = "Email is required";
+    if (!formData.password) nextErrors.password = "Password is required";
     if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = 'Passwords do not match';
+      nextErrors.confirmPassword = "Passwords do not match";
     }
-    if (formData.age && formData.age < 18) {
-      newErrors.age = 'Must be 18 or older';
+    if (formData.age && Number(formData.age) < 18) {
+      nextErrors.age = "Must be 18 or older";
     }
     if (!formData.termsAccepted) {
-      newErrors.termsAccepted = 'You must accept terms';
+      nextErrors.termsAccepted = "You must accept terms";
     }
 
-    return newErrors;
+    return nextErrors;
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (event) => {
+    event.preventDefault();
     const validationErrors = validate();
 
     if (Object.keys(validationErrors).length > 0) {
       setErrors(validationErrors);
-    } else {
-      setErrors({});
-      setSubmitted(true);
-      console.log('Registration data:', formData);
+      return;
     }
+
+    setErrors({});
+    setSubmitted(true);
+    console.log("Registration data:", formData);
   };
 
   if (submitted) {
     return (
-      <div style={{ padding: '20px', background: '#d4edda', borderRadius: '8px' }}>
-        <h3>✅ Registration Successful!</h3>
+      <div
+        style={{ padding: "20px", background: "#d4edda", borderRadius: "8px" }}
+      >
+        <h3>Registration Successful!</h3>
         <p>Welcome, {formData.username}!</p>
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ maxWidth: '400px' }}>
-      <div style={{ marginBottom: '10px' }}>
+    <form onSubmit={handleSubmit} style={{ maxWidth: "400px" }}>
+      <div style={{ marginBottom: "10px" }}>
         <input
           type="text"
           name="username"
           value={formData.username}
           onChange={handleChange}
           placeholder="Username"
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
         />
-        {errors.username && <span style={{ color: 'red', fontSize: '12px' }}>{errors.username}</span>}
+        {errors.username && (
+          <span style={{ color: "red", fontSize: "12px" }}>
+            {errors.username}
+          </span>
+        )}
       </div>
 
-      <div style={{ marginBottom: '10px' }}>
+      <div style={{ marginBottom: "10px" }}>
         <input
           type="email"
           name="email"
           value={formData.email}
           onChange={handleChange}
           placeholder="Email"
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
         />
-        {errors.email && <span style={{ color: 'red', fontSize: '12px' }}>{errors.email}</span>}
+        {errors.email && (
+          <span style={{ color: "red", fontSize: "12px" }}>{errors.email}</span>
+        )}
       </div>
 
-      <div style={{ marginBottom: '10px' }}>
+      <div style={{ marginBottom: "10px" }}>
         <input
           type="password"
           name="password"
           value={formData.password}
           onChange={handleChange}
           placeholder="Password"
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
         />
-        {errors.password && <span style={{ color: 'red', fontSize: '12px' }}>{errors.password}</span>}
+        {errors.password && (
+          <span style={{ color: "red", fontSize: "12px" }}>
+            {errors.password}
+          </span>
+        )}
       </div>
 
-      <div style={{ marginBottom: '10px' }}>
+      <div style={{ marginBottom: "10px" }}>
         <input
           type="password"
           name="confirmPassword"
           value={formData.confirmPassword}
           onChange={handleChange}
           placeholder="Confirm Password"
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
         />
-        {errors.confirmPassword && <span style={{ color: 'red', fontSize: '12px' }}>{errors.confirmPassword}</span>}
+        {errors.confirmPassword && (
+          <span style={{ color: "red", fontSize: "12px" }}>
+            {errors.confirmPassword}
+          </span>
+        )}
       </div>
 
-      <div style={{ marginBottom: '10px' }}>
+      <div style={{ marginBottom: "10px" }}>
         <input
           type="number"
           name="age"
           value={formData.age}
           onChange={handleChange}
           placeholder="Age"
-          style={{ width: '100%' }}
+          style={{ width: "100%" }}
         />
-        {errors.age && <span style={{ color: 'red', fontSize: '12px' }}>{errors.age}</span>}
+        {errors.age && (
+          <span style={{ color: "red", fontSize: "12px" }}>{errors.age}</span>
+        )}
       </div>
 
-      <div style={{ marginBottom: '10px' }}>
+      <div style={{ marginBottom: "10px" }}>
         <label>
           <input
             type="radio"
             name="gender"
             value="male"
-            checked={formData.gender === 'male'}
+            checked={formData.gender === "male"}
             onChange={handleChange}
-          />
-          {' '}Male
+          />{" "}
+          Male
         </label>
-        <label style={{ marginLeft: '10px' }}>
+        <label style={{ marginLeft: "10px" }}>
           <input
             type="radio"
             name="gender"
             value="female"
-            checked={formData.gender === 'female'}
+            checked={formData.gender === "female"}
             onChange={handleChange}
-          />
-          {' '}Female
+          />{" "}
+          Female
         </label>
       </div>
 
-      <div style={{ marginBottom: '10px' }}>
+      <div style={{ marginBottom: "10px" }}>
         <label>
           <input
             type="checkbox"
             name="termsAccepted"
             checked={formData.termsAccepted}
             onChange={handleChange}
-          />
-          {' '}I accept the terms and conditions
+          />{" "}
+          I accept the terms and conditions
         </label>
-        {errors.termsAccepted && <div style={{ color: 'red', fontSize: '12px' }}>{errors.termsAccepted}</div>}
+        {errors.termsAccepted && (
+          <div style={{ color: "red", fontSize: "12px" }}>
+            {errors.termsAccepted}
+          </div>
+        )}
       </div>
 
-      <button type="submit" style={{ width: '100%', padding: '10px' }}>
+      <button type="submit" style={{ width: "100%", padding: "10px" }}>
         Register
       </button>
     </form>
@@ -468,59 +576,32 @@ function RegistrationFormExample() {
 
 // MAIN APP - Copy this entire file to Stackblitz
 export default function App() {
+  const sections = [
+    ["1. Basic Controlled Input", <BasicInputExample key="basic" />],
+    ["2. Multiple Inputs", <MultipleInputsExample key="multiple" />],
+    ["3. Textarea", <TextareaExample key="textarea" />],
+    ["4. Select Dropdown", <SelectExample key="select" />],
+    ["5. Checkbox", <CheckboxExample key="checkbox" />],
+    ["6. Multiple Checkboxes", <MultipleCheckboxesExample key="checkboxes" />],
+    ["7. Radio Buttons", <RadioButtonExample key="radio" />],
+    ["8. Form Submission", <FormSubmissionExample key="submission" />],
+    ["9. Form Validation", <FormValidationExample key="validation" />],
+    [
+      "10. Complete Registration Form",
+      <RegistrationFormExample key="registration" />,
+    ],
+  ];
+
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
       <h1>React Forms & Controlled Components Examples</h1>
 
-      <section style={{ marginBottom: '30px', padding: '15px', background: '#f5f5f5', borderRadius: '8px' }}>
-        <h3>1. Basic Controlled Input</h3>
-        <BasicInputExample />
-      </section>
-
-      <section style={{ marginBottom: '30px', padding: '15px', background: '#f5f5f5', borderRadius: '8px' }}>
-        <h3>2. Multiple Inputs</h3>
-        <MultipleInputsExample />
-      </section>
-
-      <section style={{ marginBottom: '30px', padding: '15px', background: '#f5f5f5', borderRadius: '8px' }}>
-        <h3>3. Textarea</h3>
-        <TextareaExample />
-      </section>
-
-      <section style={{ marginBottom: '30px', padding: '15px', background: '#f5f5f5', borderRadius: '8px' }}>
-        <h3>4. Select Dropdown</h3>
-        <SelectExample />
-      </section>
-
-      <section style={{ marginBottom: '30px', padding: '15px', background: '#f5f5f5', borderRadius: '8px' }}>
-        <h3>5. Checkbox</h3>
-        <CheckboxExample />
-      </section>
-
-      <section style={{ marginBottom: '30px', padding: '15px', background: '#f5f5f5', borderRadius: '8px' }}>
-        <h3>6. Multiple Checkboxes</h3>
-        <MultipleCheckboxesExample />
-      </section>
-
-      <section style={{ marginBottom: '30px', padding: '15px', background: '#f5f5f5', borderRadius: '8px' }}>
-        <h3>7. Radio Buttons</h3>
-        <RadioButtonExample />
-      </section>
-
-      <section style={{ marginBottom: '30px', padding: '15px', background: '#f5f5f5', borderRadius: '8px' }}>
-        <h3>8. Form Submission</h3>
-        <FormSubmissionExample />
-      </section>
-
-      <section style={{ marginBottom: '30px', padding: '15px', background: '#f5f5f5', borderRadius: '8px' }}>
-        <h3>9. Form Validation</h3>
-        <FormValidationExample />
-      </section>
-
-      <section style={{ marginBottom: '30px', padding: '15px', background: '#f5f5f5', borderRadius: '8px' }}>
-        <h3>10. Complete Registration Form</h3>
-        <RegistrationFormExample />
-      </section>
+      {sections.map(([title, component]) => (
+        <section key={title} style={sectionStyle}>
+          <h3>{title}</h3>
+          {component}
+        </section>
+      ))}
     </div>
   );
 }

@@ -11,6 +11,11 @@ import {
 } from "react";
 import AboutYouProfile from "./AboutYouProfile";
 import "./App.css";
+import ConditionalRenderingDemo from "./assets/ConditionalRenderingDemo";
+import EventHandlersDemo from "./assets/EventHandlersDemo";
+import FormsControlledDemo from "./assets/FormsControlledDemo";
+import ListsAndLoopsDemo from "./assets/ListsAndLoopsDemo";
+import TaskManagerDemo from "./assets/stack";
 
 const STORAGE_KEY = "hooks-study-board";
 const areaOptions = ["Frontend", "Backend", "Data", "QA", "Produto"];
@@ -78,6 +83,16 @@ const initialBoardState = {
   tasks: mockTasks,
   filter: "all",
 };
+
+const demoViews = [
+  { id: "board", label: "Painel de tarefas" },
+  { id: "profile", label: "Fale de voce" },
+  { id: "demo-01", label: "Demo 01" },
+  { id: "demo-02", label: "Demo 02" },
+  { id: "demo-03", label: "Demo 03" },
+  { id: "demo-04", label: "Demo 04" },
+  { id: "demo-05", label: "Demo 05" },
+];
 
 function boardReducer(state, action) {
   switch (action.type) {
@@ -493,6 +508,23 @@ function AppShell() {
   const [activeView, setActiveView] = useState("board");
   const { theme, toggleTheme } = useTheme();
 
+  const activeComponent =
+    activeView === "board" ? (
+      <StudyBoard />
+    ) : activeView === "profile" ? (
+      <AboutYouProfile />
+    ) : activeView === "demo-01" ? (
+      <EventHandlersDemo />
+    ) : activeView === "demo-02" ? (
+      <ConditionalRenderingDemo />
+    ) : activeView === "demo-03" ? (
+      <ListsAndLoopsDemo />
+    ) : activeView === "demo-04" ? (
+      <FormsControlledDemo />
+    ) : (
+      <TaskManagerDemo />
+    );
+
   useEffect(() => {
     document.body.dataset.theme = theme;
   }, [theme]);
@@ -518,28 +550,22 @@ function AppShell() {
             >
               Tema: {theme}
             </button>
-            <button
-              type="button"
-              className={
-                activeView === "board" ? "primary-button" : "ghost-button"
-              }
-              onClick={() => setActiveView("board")}
-            >
-              Painel de tarefas
-            </button>
-            <button
-              type="button"
-              className={
-                activeView === "profile" ? "primary-button" : "ghost-button"
-              }
-              onClick={() => setActiveView("profile")}
-            >
-              Fale de voce
-            </button>
+            {demoViews.map((view) => (
+              <button
+                key={view.id}
+                type="button"
+                className={
+                  activeView === view.id ? "primary-button" : "ghost-button"
+                }
+                onClick={() => setActiveView(view.id)}
+              >
+                {view.label}
+              </button>
+            ))}
           </div>
         </header>
 
-        {activeView === "board" ? <StudyBoard /> : <AboutYouProfile />}
+        {activeComponent}
       </section>
     </main>
   );

@@ -2,7 +2,7 @@
 // CONDITIONAL RENDERING IN REACT
 // ============================================
 
-import { useState } from 'react';
+import { useState } from "react";
 
 // Example 1: If/Else with Variable
 function IfElseExample() {
@@ -19,7 +19,7 @@ function IfElseExample() {
     <div>
       {content}
       <button onClick={() => setIsLoggedIn(!isLoggedIn)}>
-        {isLoggedIn ? 'Logout' : 'Login'}
+        {isLoggedIn ? "Logout" : "Login"}
       </button>
     </div>
   );
@@ -31,8 +31,8 @@ function TernaryExample() {
 
   return (
     <div>
-      <h2>{isDay ? '☀️ Good Morning!' : '🌙 Good Evening!'}</h2>
-      <button onClick={() => setIsDay(!isDay)}>Toggle Time</button>
+      <h2>{isDay ? "☀️ Good Morning!" : "🌙 Good Evening!"}</h2>
+      <button onClick={() => setIsDay(!isDay)}>Toggle Time 😂</button>
     </div>
   );
 }
@@ -45,7 +45,9 @@ function LogicalAndExample() {
   return (
     <div>
       <h3>Notifications</h3>
-      {hasNotifications && <span style={{ color: 'red' }}>🔔 You have {count} new messages!</span>}
+      {hasNotifications && (
+        <span style={{ color: "red" }}>🔔 You have {count} new messages!</span>
+      )}
       <br />
       <button onClick={() => setHasNotifications(!hasNotifications)}>
         Toggle Notifications
@@ -56,7 +58,7 @@ function LogicalAndExample() {
 
 // Example 4: Logical OR (||)
 function LogicalOrExample() {
-  const [username, setUsername] = useState('');
+  const [username, setUsername] = useState("");
 
   return (
     <div>
@@ -66,43 +68,43 @@ function LogicalOrExample() {
         onChange={(e) => setUsername(e.target.value)}
         placeholder="Enter username"
       />
-      <h3>Hello, {username || 'Guest'}!</h3>
+      <h3>Hello, {username || "Guest"}!</h3>
     </div>
   );
 }
 
 // Example 5: Multiple Conditions
 function MultipleConditionsExample() {
-  const [status, setStatus] = useState('pending');
+  const [status, setStatus] = useState("pending");
 
   const getStatusMessage = () => {
-    if (status === 'pending') return '⏳ Processing...';
-    if (status === 'success') return '✅ Success!';
-    if (status === 'error') return '❌ Error occurred!';
-    return '❓ Unknown status';
+    if (status === "pending") return "⏳ Processing...";
+    if (status === "success") return "✅ Success!";
+    if (status === "error") return "❌ Error occurred!";
+    return "❓ Unknown status";
   };
 
   return (
     <div>
       <h3>{getStatusMessage()}</h3>
-      <button onClick={() => setStatus('pending')}>Pending</button>
-      <button onClick={() => setStatus('success')}>Success</button>
-      <button onClick={() => setStatus('error')}>Error</button>
+      <button onClick={() => setStatus("pending")}>Pending</button>
+      <button onClick={() => setStatus("success")}>Success</button>
+      <button onClick={() => setStatus("error")}>Error</button>
     </div>
   );
 }
 
 // Example 6: Switch Statement
 function SwitchExample() {
-  const [role, setRole] = useState('user');
+  const [role, setRole] = useState("user");
 
   const renderContent = () => {
     switch (role) {
-      case 'admin':
+      case "admin":
         return <div>👑 Admin Dashboard</div>;
-      case 'moderator':
+      case "moderator":
         return <div>🛡️ Moderator Panel</div>;
-      case 'user':
+      case "user":
         return <div>👤 User Profile</div>;
       default:
         return <div>🚫 Access Denied</div>;
@@ -112,11 +114,11 @@ function SwitchExample() {
   return (
     <div>
       {renderContent()}
-      <div style={{ marginTop: '10px' }}>
-        <button onClick={() => setRole('admin')}>Admin</button>
-        <button onClick={() => setRole('moderator')}>Moderator</button>
-        <button onClick={() => setRole('user')}>User</button>
-        <button onClick={() => setRole('guest')}>Guest</button>
+      <div style={{ marginTop: "10px" }}>
+        <button onClick={() => setRole("admin")}>Admin</button>
+        <button onClick={() => setRole("moderator")}>Moderator</button>
+        <button onClick={() => setRole("user")}>User</button>
+        <button onClick={() => setRole("guest")}>Guest</button>
       </div>
     </div>
   );
@@ -127,17 +129,17 @@ function ConditionalStylesExample() {
   const [isActive, setIsActive] = useState(false);
 
   const buttonStyle = {
-    padding: '10px 20px',
-    backgroundColor: isActive ? '#4CAF50' : '#f44336',
-    color: 'white',
-    border: 'none',
-    borderRadius: '4px',
-    cursor: 'pointer',
+    padding: "10px 20px",
+    backgroundColor: isActive ? "#4CAF50" : "#f44336",
+    color: "white",
+    border: "none",
+    borderRadius: "4px",
+    cursor: "pointer",
   };
 
   return (
     <button style={buttonStyle} onClick={() => setIsActive(!isActive)}>
-      {isActive ? 'Active' : 'Inactive'}
+      {isActive ? "Active" : "Inactive"}
     </button>
   );
 }
@@ -151,9 +153,14 @@ function NullRenderingExample() {
   }
 
   return (
-    <div style={{ background: '#fff3cd', padding: '10px', borderRadius: '4px' }}>
+    <div
+      style={{ background: "#fff3cd", padding: "10px", borderRadius: "4px" }}
+    >
       <strong>⚠️ Warning:</strong> This is important!
-      <button onClick={() => setShowWarning(false)} style={{ marginLeft: '10px' }}>
+      <button
+        onClick={() => setShowWarning(false)}
+        style={{ marginLeft: "10px" }}
+      >
         Dismiss
       </button>
     </div>
@@ -168,10 +175,10 @@ function LoadingStateExample() {
   const fetchData = () => {
     setIsLoading(true);
     setData(null);
-    
+
     // Simulate API call
     setTimeout(() => {
-      setData({ name: 'John Doe', email: 'john@example.com' });
+      setData({ name: "John Doe", email: "john@example.com" });
       setIsLoading(false);
     }, 2000);
   };
@@ -179,16 +186,22 @@ function LoadingStateExample() {
   return (
     <div>
       <button onClick={fetchData}>Fetch Data</button>
-      
+
       {isLoading && <p>Loading...</p>}
-      
+
       {!isLoading && data && (
-        <div style={{ marginTop: '10px', padding: '10px', background: '#e3f2fd' }}>
-          <p><strong>Name:</strong> {data.name}</p>
-          <p><strong>Email:</strong> {data.email}</p>
+        <div
+          style={{ marginTop: "10px", padding: "10px", background: "#e3f2fd" }}
+        >
+          <p>
+            <strong>Name:</strong> {data.name}
+          </p>
+          <p>
+            <strong>Email:</strong> {data.email}
+          </p>
         </div>
       )}
-      
+
       {!isLoading && !data && <p>No data. Click fetch to load.</p>}
     </div>
   );
@@ -243,55 +256,125 @@ function AuthenticationFlow() {
 // MAIN APP - Copy this entire file to Stackblitz
 export default function App() {
   return (
-    <div style={{ padding: '20px', fontFamily: 'Arial, sans-serif' }}>
+    <div style={{ padding: "20px", fontFamily: "Arial, sans-serif" }}>
       <h1>React Conditional Rendering Examples</h1>
 
-      <section style={{ marginBottom: '30px', padding: '15px', background: '#f5f5f5', borderRadius: '8px' }}>
+      <section
+        style={{
+          marginBottom: "30px",
+          padding: "15px",
+          background: "#f5f5f5",
+          borderRadius: "8px",
+        }}
+      >
         <h3>1. If/Else with Variable</h3>
         <IfElseExample />
       </section>
 
-      <section style={{ marginBottom: '30px', padding: '15px', background: '#f5f5f5', borderRadius: '8px' }}>
+      <section
+        style={{
+          marginBottom: "30px",
+          padding: "15px",
+          background: "#f5f5f5",
+          borderRadius: "8px",
+        }}
+      >
         <h3>2. Ternary Operator</h3>
         <TernaryExample />
       </section>
 
-      <section style={{ marginBottom: '30px', padding: '15px', background: '#f5f5f5', borderRadius: '8px' }}>
+      <section
+        style={{
+          marginBottom: "30px",
+          padding: "15px",
+          background: "#f5f5f5",
+          borderRadius: "8px",
+        }}
+      >
         <h3>3. Logical AND (&&)</h3>
         <LogicalAndExample />
       </section>
 
-      <section style={{ marginBottom: '30px', padding: '15px', background: '#f5f5f5', borderRadius: '8px' }}>
+      <section
+        style={{
+          marginBottom: "30px",
+          padding: "15px",
+          background: "#f5f5f5",
+          borderRadius: "8px",
+        }}
+      >
         <h3>4. Logical OR (||)</h3>
         <LogicalOrExample />
       </section>
 
-      <section style={{ marginBottom: '30px', padding: '15px', background: '#f5f5f5', borderRadius: '8px' }}>
+      <section
+        style={{
+          marginBottom: "30px",
+          padding: "15px",
+          background: "#f5f5f5",
+          borderRadius: "8px",
+        }}
+      >
         <h3>5. Multiple Conditions</h3>
         <MultipleConditionsExample />
       </section>
 
-      <section style={{ marginBottom: '30px', padding: '15px', background: '#f5f5f5', borderRadius: '8px' }}>
+      <section
+        style={{
+          marginBottom: "30px",
+          padding: "15px",
+          background: "#f5f5f5",
+          borderRadius: "8px",
+        }}
+      >
         <h3>6. Switch Statement</h3>
         <SwitchExample />
       </section>
 
-      <section style={{ marginBottom: '30px', padding: '15px', background: '#f5f5f5', borderRadius: '8px' }}>
+      <section
+        style={{
+          marginBottom: "30px",
+          padding: "15px",
+          background: "#f5f5f5",
+          borderRadius: "8px",
+        }}
+      >
         <h3>7. Conditional Styles</h3>
         <ConditionalStylesExample />
       </section>
 
-      <section style={{ marginBottom: '30px', padding: '15px', background: '#f5f5f5', borderRadius: '8px' }}>
+      <section
+        style={{
+          marginBottom: "30px",
+          padding: "15px",
+          background: "#f5f5f5",
+          borderRadius: "8px",
+        }}
+      >
         <h3>8. Null Rendering</h3>
         <NullRenderingExample />
       </section>
 
-      <section style={{ marginBottom: '30px', padding: '15px', background: '#f5f5f5', borderRadius: '8px' }}>
+      <section
+        style={{
+          marginBottom: "30px",
+          padding: "15px",
+          background: "#f5f5f5",
+          borderRadius: "8px",
+        }}
+      >
         <h3>9. Loading State</h3>
         <LoadingStateExample />
       </section>
 
-      <section style={{ marginBottom: '30px', padding: '15px', background: '#f5f5f5', borderRadius: '8px' }}>
+      <section
+        style={{
+          marginBottom: "30px",
+          padding: "15px",
+          background: "#f5f5f5",
+          borderRadius: "8px",
+        }}
+      >
         <h3>10. Authentication Flow</h3>
         <AuthenticationFlow />
       </section>
