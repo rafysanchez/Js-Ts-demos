@@ -1,11 +1,3 @@
-// type Produto = {
-//     id: number,
-//     nome: string,
-//     descricao: string,
-//     preco: number,
-//     disponivel: boolean
-// }
-
 let itens = [
   {
     id: 1,
@@ -202,7 +194,8 @@ const tamanho = setNumeros.size;
 // forEach: iterar sobre o Set
 const elementos = [];
 setNumeros.forEach((n) => elementos.push(n));
-
+// exibe elementos
+console.log("Elementos do Set:", elementos);
 // Converter de volta para array (spread ou Array.from)
 const arraySemDuplicatas = [...setNumeros];
 const arrayAlt = Array.from(setNumeros);
