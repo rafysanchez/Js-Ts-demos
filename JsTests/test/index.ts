@@ -1,3 +1,42 @@
+type Pessoas = {
+    id: number,
+    nome: string,
+    idade: number
+}
+
+const listPessoas: Pessoas[] = [
+    { id: 12, nome: 'ana', idade: 20 },
+    { id: 13, nome: 'bia', idade: 30 },
+    { id: 14, nome: 'carlos', idade: 40 }
+]
+// adiconar pessoa
+const pessoa: Pessoas = { id: 15, nome: 'diana', idade: 25 };
+listPessoas.push(pessoa);
+
+// filtrar pessoas com idade maior que 25
+const pessoasMaiores25 = listPessoas.filter(p => p.idade > 25);
+
+// usar reduce para somar as idades das pessoas
+const somaIdades = listPessoas.reduce((acc, p) => acc + p.idade, 0);
+
+// usar map para criar um array com os nomes das pessoas
+const nomesPessoas = listPessoas.map(p => p.nome);
+
+// usar filter com map
+const nomesMaiores25 = listPessoas.filter(p => p.idade > 25).map(p => p.nome);
+
+// atualizar idade de uma pessoa
+const idParaAtualizarPessoa = 13;
+const pessoaParaAtualizar = listPessoas.find(p => p.id === idParaAtualizarPessoa);
+if (pessoaParaAtualizar) {
+    pessoaParaAtualizar.idade += 1; // incrementa a idade em 1
+}
+
+const listPessoaAtualizada = listPessoas.map(pessoa =>
+    pessoa.id === idParaAtualizarPessoa ? { ...pessoa, idade: pessoa.idade + 1 } : pessoa
+);
+console.log('Pessoas atualizadas:', listPessoaAtualizada);
+
 /**
  * Interface que define a estrutura de um Produto
  */
@@ -72,7 +111,7 @@ numerosSet.add(11);
 numerosSet.delete(3);
 const tamanho = numerosSet.size;
 
-const elementos= Array.from(numerosSet);
+const elementos = Array.from(numerosSet);
 
 // Operações com Sets (união, interseção, diferença)
 const outrosNumeros = new Set([5, 6, 12]);
