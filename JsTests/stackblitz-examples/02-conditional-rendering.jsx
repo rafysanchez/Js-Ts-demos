@@ -25,7 +25,7 @@ function IfElseExample() {
   );
 }
 
-// Example 2: Ternary Operator
+// Example 2: Ternary Operator 🤣
 function TernaryExample() {
   const [isDay, setIsDay] = useState(true);
 
