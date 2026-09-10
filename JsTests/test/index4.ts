@@ -1,4 +1,33 @@
 
+type Person = {
+    name: string,
+    age: number,
+    email: string
+
+}
+
+const pessoas : Person[] = [
+    { name: 'Alice', age: 30, email: 'teste@dd.com'},
+    { name: 'Bob', age: 25, email: 'bob@example.com'}
+]
+
+pessoas.push({ name: 'Charlie', age: 35, email: 'charlie@example.com' });
+
+pessoas.forEach(person=> {
+    console.log(`Name: ${person.name}, Age: ${person.age}, Email: ${person.email}`);
+});
+
+pessoas.filter(person => person.age > 30).forEach(person => {
+    console.log(`Older than 30: ${person.name}, Age: ${person.age}`);
+});
+
+
+pessoas.map(person => ({ id: pessoas.indexOf(person), email: person.email })).forEach(item => {
+    console.log(`ID: ${item.id}, Email: ${item.email}`);    
+});
+
+
+
 
 type Produto = {
     id: number,
