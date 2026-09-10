@@ -16,4 +16,3 @@ arrProduts.forEach((item) => {
   console.log(item.name);
 }
 
-

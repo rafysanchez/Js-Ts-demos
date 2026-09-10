@@ -1,4 +1,4 @@
-
+//  (()=>{},[])();
 
 type Produto = {
     id: number,
@@ -200,3 +200,7 @@ console.log('Numeros ordenados:', numerosOrdenadosArray);
 console.log('Uniao:', uniaoArray);
 console.log('Intersecao:', intersecaoArray);
 console.log('Diferenca:', diferencaArray);
+
+
+//  (()=>{},[])();
+
