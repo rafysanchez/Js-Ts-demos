@@ -1,3 +1,42 @@
+type Pessoas = {
+    id: number,
+    nome: string,
+    idade: number
+}
+
+const listPessoas: Pessoas[] = [
+    { id: 12, nome: 'ana', idade: 20 },
+    { id: 13, nome: 'bia', idade: 30 },
+    { id: 14, nome: 'carlos', idade: 40 }
+]
+// adiconar pessoa
+const pessoa: Pessoas = { id: 15, nome: 'diana', idade: 25 };
+listPessoas.push(pessoa);
+
+// filtrar pessoas com idade maior que 25
+const pessoasMaiores25 = listPessoas.filter(p => p.idade > 25);
+
+// usar reduce para somar as idades das pessoas
+const somaIdades = listPessoas.reduce((acc, p) => acc + p.idade, 0);
+
+// usar map para criar um array com os nomes das pessoas
+const nomesPessoas = listPessoas.map(p => p.nome);
+
+// usar filter com map
+const nomesMaiores25: string[] = listPessoas.filter(p => p.idade > 25).map(p => p.nome);
+
+// atualizar idade de uma pessoa
+const idParaAtualizarPessoa = 13;
+const pessoaParaAtualizar = listPessoas.find(p => p.id === idParaAtualizarPessoa);
+if (pessoaParaAtualizar) {
+    pessoaParaAtualizar.idade += 1; // incrementa a idade em 1
+}
+
+const listPessoaAtualizada = listPessoas.map(pessoa =>
+    pessoa.id === idParaAtualizarPessoa ? { ...pessoa, idade: pessoa.idade + 1 } : pessoa
+);
+console.log('Pessoas atualizadas:', listPessoaAtualizada);
+
 /**
  * Interface que define a estrutura de um Produto
  */
@@ -7,6 +46,7 @@ export interface Produto {
     descricao: string;
     preco: number;
     disponivel: boolean;
+    qtde?: number; // Quantidade opcional, caso seja necessário rastrear estoque
 }
 
 /**
@@ -39,6 +79,9 @@ produtosSet.add({ id: 11, nome: 'Pen Drive', descricao: 'Pen Drive 32GB', preco:
 // Verificar se tem produto disponível
 const temProdutoDisponivel = [...produtosSet].some(produto => produto.disponivel);
 
+// quais produtos estão disponíveis
+const produtosDisponiveisSet = [...produtosSet].filter(produto => produto.disponivel);
+
 // Remover um produto pelo id
 const idParaRemoverSet = 3;
 for (const p of produtosSet) {
@@ -68,7 +111,7 @@ numerosSet.add(11);
 numerosSet.delete(3);
 const tamanho = numerosSet.size;
 
-const elementos: number[] = Array.from(numerosSet);
+const elementos = Array.from(numerosSet);
 
 // Operações com Sets (união, interseção, diferença)
 const outrosNumeros = new Set([5, 6, 12]);
@@ -100,14 +143,15 @@ produtos = produtos.filter(produto => produto.id !== idParaRemover);
 
 // Atualizar o preço de um produto existente (operação imutável)
 const idParaAtualizar = 2;
-produtos = produtos.map(produto => produto.id === idParaAtualizar ? { ...produto, preco: produto.preco + 5 } : produto);
+produtos = produtos.map(produto => produto.id === idParaAtualizar ?
+    { ...produto, preco: produto.preco + 5 } : produto);
 
 // Operações com arrays de números
 const numerosPares = novosNumeros.filter(n => n % 2 === 0);
 const quadrados = novosNumeros.map(n => n * n);
 const soma = novosNumeros.reduce((acc, n) => acc + n, 0);
 const existeMaiorQue5 = novosNumeros.some(n => n > 5);
-
+const quaisMaiorQue5 = novosNumeros.filter(n => n > 5);
 // Operações com arrays
 const outroArray = [5, 6, 12];
 const uniaoArray = [...novosNumeros, ...outroArray];
@@ -118,5 +162,5 @@ const diferencaArray = novosNumeros.filter(n => !outroArray.includes(n));
 console.log('Número de produtos:', produtos.length);
 console.log('Números pares:', numerosPares);
 console.log('Soma:', soma);
-
-
+console.log('Existe número maior que 5:', existeMaiorQue5);
+console.log('Números maiores que 5:', quaisMaiorQue5);
