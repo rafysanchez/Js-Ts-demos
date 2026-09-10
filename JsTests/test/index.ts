@@ -23,7 +23,7 @@ const somaIdades = listPessoas.reduce((acc, p) => acc + p.idade, 0);
 const nomesPessoas = listPessoas.map(p => p.nome);
 
 // usar filter com map
-const nomesMaiores25 = listPessoas.filter(p => p.idade > 25).map(p => p.nome);
+const nomesMaiores25: string[] = listPessoas.filter(p => p.idade > 25).map(p => p.nome);
 
 // atualizar idade de uma pessoa
 const idParaAtualizarPessoa = 13;
