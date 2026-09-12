@@ -69,7 +69,7 @@ let itens = [
     descricao: "Relógio digital",
     preco: 199.99,
     disponivel: true,
-    qtde: null,
+    qtde: 12,
   },
   {
     id: 10,
@@ -77,7 +77,7 @@ let itens = [
     descricao: "Garrafa térmica",
     preco: 49.9,
     disponivel: true,
-    qtde: null,
+    qtde: 20,
   },
 ];
 
@@ -88,6 +88,7 @@ itens.push({
   descricao: "Pen Drive 32GB",
   preco: 39.9,
   disponivel: true,
+  qtde: 102,
 });
 //com arrays remover item id = 1
 itens = itens.filter((item) => item.id !== 1);

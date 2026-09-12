@@ -32,6 +32,11 @@ if (pessoaParaAtualizar) {
     pessoaParaAtualizar.idade += 1; // incrementa a idade em 1
 }
 
+// filtrar pessoas com duas condições: idade maior que 25 e nome diferente de "carlos"
+const pessoasComDuasCondicoes = listPessoas.filter(
+    p => p.idade > 25 && p.nome !== 'carlos'
+);
+
 const listPessoaAtualizada = listPessoas.map(pessoa =>
     pessoa.id === idParaAtualizarPessoa ? { ...pessoa, idade: pessoa.idade + 1 } : pessoa
 );

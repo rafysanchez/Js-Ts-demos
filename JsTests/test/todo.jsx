@@ -5,7 +5,7 @@ const todos = [
   { id: 3, text: "Master JavaScript", completed: false },
 ];
 
-export function TodoApp({}) {
+export function TodoApp({ todos }) {
   const [tasks, setTasks] = useState(todos);
   const [input, setInput] = useState("");
   const [filter, setFilter] = useState("all");
