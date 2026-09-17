@@ -21,6 +21,8 @@ export interface IProduct2 {
 
 };
 
+
+
 export const produtosComQtd: readonly IProduct2[] = [
     { id: 101, nome: "Caneca Especial", descricao: "Caneca de cerâmica decorada", preco: 34.9, disponivel: true, qtdEstoque: 25 },
     { id: 102, nome: "Caderno Premium", descricao: "Caderno capa dura 200 folhas", preco: 29.5, disponivel: true, qtdEstoque: 40 },
@@ -187,6 +189,34 @@ export const produtoMaisBaratoSeguro = produtos.reduce<Produto | null>(
     null
 );
 
+// Exemplos de estudo usando IProduct2 com slice e reduce.
+
+// SLICE 1: seleciona os dois primeiros produtos sem alterar o array original.
+export const primeirosProdutosComQtd = produtosComQtd.slice(0, 2);
+
+// SLICE 2: seleciona os produtos a partir do índice 2 até o final.
+export const produtosComQtdDoTerceiro = produtosComQtd.slice(2);
+
+// SLICE 3: cria uma cópia dos produtos em ordem inversa, sem mutar o array original.
+export const produtosComQtdUltimosDois = produtosComQtd.slice(-2);
+
+// REDUCE 1: soma o valor estimado do estoque de todos os produtos.
+export const valorTotalEmEstoqueComQtd = produtosComQtd.reduce(
+    (total, produto) => total + produto.preco * (produto.qtdEstoque ?? 0),
+    0
+);
+
+// REDUCE 2: conta quantos produtos estão disponíveis.
+export const quantidadeProdutosDisponiveisComQtd = produtosComQtd.reduce(
+    (quantidade, produto) => quantidade + (produto.disponivel ? 1 : 0),
+    0
+);
+
+// REDUCE 3: encontra o produto com o maior preço.
+export const produtoMaisCaroComQtd = produtosComQtd.reduce(
+    (maisCaro, produto) => (produto.preco > maisCaro.preco ? produto : maisCaro)
+);
+
 export const produtoMaisBaratoValido = produtos.every((produto) => produto.preco >= produtoMaisBarato.preco);
 
 export const nomesProdutos = produtos.map((produto) => produto.nome);
@@ -270,6 +300,8 @@ export const ehPrimo = (numero: number): boolean => {
     // Se nenhum divisor foi encontrado, o número é primo.
     return true;
 };
+
+
 
 // Cria um array com os números de 1 até 20.
 export const numerosDe1a20 = Array.from({ length: 20 }, (_, i) => i + 1);

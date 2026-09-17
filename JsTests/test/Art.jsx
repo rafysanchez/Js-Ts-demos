@@ -14,7 +14,6 @@ export const App = ({ articles = [] }) => {
         (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
       );
     }
-
   }, [articles, sortBy]);
 
   return (
