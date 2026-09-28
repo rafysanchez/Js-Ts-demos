@@ -1,19 +1,25 @@
-// estudos com promises e async/await
+// estudo de async/await + Promise.all
+// objetivo: entender como processar várias tarefas ao mesmo tempo
 
+export { };
 
+// 1) definimos o formato inicial das ordens
+// cada pedido tem: id, cliente, valor e status
+// status pode ser: concluído, pendente ou cancelado
 type Order = {
     id: number;
     customer: string;
-    category: string;
     amount: number;
     status: "completed" | "pending" | "cancelled";
 };
 
+// 2) depois que a ordem é processada, ela recebe impostos e valor final
 type ProcessedOrder = Order & {
     tax: number;
     finalAmount: number;
 };
 
+// 3) resultado resumido por grupo
 type GroupResult = {
     groupName: string;
     processedOrders: ProcessedOrder[];
@@ -21,52 +27,26 @@ type GroupResult = {
     completedCount: number;
 };
 
-async function processOrderGroups(
-    groups: Order[][]
-): Promise<GroupResult[]> {
+// 4) função que soma os valores de pedidos concluídos
+function calculateSummary(processedOrders: ProcessedOrder[]) {
+    let totalAmount = 0;
+    let completedCount = 0;
 
-    const results: GroupResult[] = [];
-
-    let groupIndex = 1;
-
-    for (const group of groups) {
-
-        const processedOrders = await Promise.all(
-            group.map(order => processOrder(order))
-        );
-
-        let totalAmount = 0;
-        let completedCount = 0;
-
-        for (const order of processedOrders) {
-
-            if (order.status === "completed") {
-                totalAmount += order.finalAmount;
-                completedCount++;
-            }
+    for (const order of processedOrders) {
+        if (order.status === "completed") {
+            totalAmount += order.finalAmount;
+            completedCount++;
         }
-
-        results.push({
-            groupName: `Group ${groupIndex}`,
-            processedOrders,
-            totalAmount,
-            completedCount
-        });
-
-        groupIndex++;
     }
 
-    return results;
+    return { totalAmount, completedCount };
 }
 
-async function processOrder(
-    order: Order
-): Promise<ProcessedOrder> {
-
+// 5) processar uma ordem isolada
+// aqui usamos Promise para simular uma tarefa assíncrona
+async function processOrder(order: Order): Promise<ProcessedOrder> {
     return new Promise(resolve => {
-
         setTimeout(() => {
-
             const tax = order.amount * 0.1;
 
             resolve({
@@ -74,94 +54,75 @@ async function processOrder(
                 tax,
                 finalAmount: order.amount + tax
             });
-
         }, 100);
     });
 }
 
-// input
+// 6) processar um grupo inteiro de pedidos
+// cada item do grupo vai ser processado em paralelo
+async function processOrderGroups(groups: Order[][]): Promise<GroupResult[]> {
+    const results: GroupResult[] = [];
 
-const groups: Order[][] = [
-    [
-        {
-            id: 1,
-            customer: "Ana",
-            category: "Electronics",
-            amount: 1000,
-            status: "completed"
-        },
-        {
-            id: 2,
-            customer: "Carlos",
-            category: "Books",
-            amount: 200,
-            status: "pending"
-        }
-    ],
+    for (let i = 0; i < groups.length; i++) {
+        const group = groups[i];
 
-    [
-        {
-            id: 3,
-            customer: "Maria",
-            category: "Clothing",
-            amount: 500,
-            status: "completed"
-        },
-        {
-            id: 4,
-            customer: "John",
-            category: "Electronics",
-            amount: 800,
-            status: "completed"
-        }
-    ]
-];
-
-const result = await processOrderGroups(groups);
-
-console.log(result);
-
-// analikse
-
-for (const group of groups) {
-
-    const processedOrders = await Promise.all(
-        group.map(order => processOrder(order))
-    );
-
-    for (const order of processedOrders) {
-
-        if (order.status === "completed") {
-            // classification / aggregation
-        }
-    }
-}
-
-//
-
-for (const group of groups) {
-    await Promise.all(...)
-}
-
-// avalie
-
-const results = await Promise.all(
-    groups.map(async (group, index) => {
-
+        // Promise.all: executa todas as promises do grupo ao mesmo tempo
         const processedOrders = await Promise.all(
             group.map(order => processOrder(order))
         );
 
-        let totalAmount = 0;
-        let completedCount = 0;
+        // depois que todas terminaram, resumimos o grupo
+        const { totalAmount, completedCount } = calculateSummary(processedOrders);
 
-        for (const order of processedOrders) {
+        results.push({
+            groupName: `Group ${i + 1}`,
+            processedOrders,
+            totalAmount,
+            completedCount
+        });
+    }
 
-            if (order.status === "completed") {
-                totalAmount += order.finalAmount;
-                completedCount++;
-            }
-        }
+    return results;
+}
+
+// 7) dados de entrada
+// cada item da lista é um grupo de pedidos
+const groups: Order[][] = [
+    [
+        { id: 1, customer: "Ana", amount: 1000, status: "completed" },
+        { id: 2, customer: "Carlos", amount: 200, status: "pending" }
+    ],
+    [
+        { id: 3, customer: "Maria", amount: 500, status: "completed" },
+        { id: 4, customer: "John", amount: 800, status: "completed" }
+    ]
+];
+
+// 8) chamada principal
+// aqui o programa espera terminar o processamento de todos os grupos
+const resultado = await processOrderGroups(groups);
+console.log("Resultado final:", resultado);
+
+// 9) exemplo simples de análise por grupo
+// cada grupo é processado individualmente, mas as ordens dentro dele são paralelas
+for (const group of groups) {
+    const processedOrders = await Promise.all(
+        group.map(order => processOrder(order))
+    );
+
+    const summary = calculateSummary(processedOrders);
+
+    console.log("Resumo do grupo:", summary);
+}
+
+// 10) exemplo de processamento paralelo de todos os grupos ao mesmo tempo
+const todosOsGrupos = await Promise.all(
+    groups.map(async (group, index) => {
+        const processedOrders = await Promise.all(
+            group.map(order => processOrder(order))
+        );
+
+        const { totalAmount, completedCount } = calculateSummary(processedOrders);
 
         return {
             groupName: `Group ${index + 1}`,
@@ -171,6 +132,13 @@ const results = await Promise.all(
         };
     })
 );
+
+console.log("Todos os grupos em paralelo:", todosOsGrupos);
+
+// resumo rápido:
+// - Promise.all processa várias tarefas simultaneamente
+// - await espera o resultado antes de continuar
+// - o código fica mais eficiente quando tarefas são independentes
 
 
 
