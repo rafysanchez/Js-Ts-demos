@@ -7,14 +7,14 @@ type Person = {
 
 }
 
-const pessoas : Person[] = [
-    { name: 'Alice', age: 30, email: 'teste@dd.com'},
-    { name: 'Bob', age: 25, email: 'bob@example.com'}
+const pessoas: Person[] = [
+    { name: 'Alice', age: 30, email: 'teste@dd.com' },
+    { name: 'Bob', age: 25, email: 'bob@example.com' }
 ]
 
 pessoas.push({ name: 'Charlie', age: 35, email: 'charlie@example.com' });
 
-pessoas.forEach(person=> {
+pessoas.forEach(person => {
     console.log(`Name: ${person.name}, Age: ${person.age}, Email: ${person.email}`);
 });
 
@@ -24,7 +24,7 @@ pessoas.filter(person => person.age > 30).forEach(person => {
 
 
 pessoas.map(person => ({ id: pessoas.indexOf(person), email: person.email })).forEach(item => {
-    console.log(`ID: ${item.id}, Email: ${item.email}`);    
+    console.log(`ID: ${item.id}, Email: ${item.email}`);
 });
 
 
@@ -147,6 +147,37 @@ const existeMaiorQue5 = simpleNumber.some(n => n > 5);
 // use arrays para estudo abaixo desta linha - tudo acima mas com arrays ops
 const itensBaseArray = [...itens];
 const numerosBaseArray = [...simpleNumber];
+
+// Exemplo de slice: cria uma parte do array sem alterar o array original.
+const frutas = ['Maçã', 'Banana', 'Laranja', 'Uva', 'Manga'];
+const frutasDoMeio = frutas.slice(1, 4); // índice inicial incluso, final não incluso
+const ultimasFrutas = frutas.slice(-2); // pega as duas últimas frutas
+
+console.log('Frutas do meio:', frutasDoMeio);
+console.log('Últimas frutas:', ultimasFrutas);
+console.log('Array original após slice:', frutas);
+
+// Os 5 métodos mais comuns para trabalhar com arrays
+
+// 1. forEach: executa uma ação para cada item
+numerosBaseArray.forEach(numero => console.log('Número:', numero));
+
+// 2. map: cria um novo array transformando cada item
+const numerosDobrados = numerosBaseArray.map(numero => numero * 2);
+
+// 3. filter: cria um novo array apenas com os itens que atendem à condição
+const numerosMaioresQueCinco = numerosBaseArray.filter(numero => numero > 5);
+
+// 4. find: encontra o primeiro item que atende à condição
+const primeiroNumeroPar = numerosBaseArray.find(numero => numero % 2 === 0);
+
+// 5. reduce: reduz o array a um único valor
+const somaDosNumeros = numerosBaseArray.reduce((total, numero) => total + numero, 0);
+
+console.log('Números dobrados:', numerosDobrados);
+console.log('Números maiores que 5:', numerosMaioresQueCinco);
+console.log('Primeiro número par:', primeiroNumeroPar);
+console.log('Soma dos números:', somaDosNumeros);
 
 // Opção: números em ordem crescente
 const opcaoNumerosCrescente = [...numerosBaseArray].sort((a, b) => a - b);
