@@ -37,3 +37,26 @@ export function Slides({ slides }) {
     </div>
   );
 }
+// Example of how to import and use the Slides component in another React file
+/* 
+// App.jsx
+import React from 'react';
+import { Slides } from './Slides';
+
+const slidesData = [
+  { title: 'Slide 1', text: 'This is the first slide.' },
+  { title: 'Slide 2', text: 'This is the second slide.' },
+  { title: 'Slide 3', text: 'This is the third slide.' },
+];
+
+function App() {
+  return (
+    <div>
+      <h1>Slide Show</h1>
+      <Slides slides={slidesData} />
+    </div>
+  );
+}
+
+export default App; 
+*/
