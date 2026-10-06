@@ -140,6 +140,104 @@ console.log("Todos os grupos em paralelo:", todosOsGrupos);
 // - await espera o resultado antes de continuar
 // - o código fica mais eficiente quando tarefas são independentes
 
+// -----------------------------------------------------------------------------
+// Versão moderna: mais enxuta, declarativa e fácil de ler
+// A ideia é usar Promise.all + map + filter + reduce para deixar o código mais limpo.
+// -----------------------------------------------------------------------------
+
+async function processOrderGroupsModern(groups: Order[][]): Promise<GroupResult[]> {
+    return Promise.all(
+        groups.map(async (group, index) => {
+            const processedOrders = await Promise.all(
+                group.map(async (order) => processOrder(order))
+            );
+
+            const completedOrders = processedOrders.filter(
+                (order) => order.status === "completed"
+            );
+
+            const totalAmount = completedOrders.reduce(
+                (sum, order) => sum + order.finalAmount,
+                0
+            );
+
+            const completedCount = completedOrders.length;
+
+            return {
+                groupName: `Group ${index + 1}`,
+                processedOrders,
+                totalAmount,
+                completedCount
+            };
+        })
+    );
+}
+
+// -----------------------------------------------------------------------------
+// Exemplo de chamada: processando grupos com a versão moderna
+// -----------------------------------------------------------------------------
+const groupsModern: Order[][] = [
+    [
+        { id: 1, customer: "Ana", amount: 1000, status: "completed" },
+        { id: 2, customer: "Carlos", amount: 200, status: "pending" }
+    ],
+    [
+        { id: 3, customer: "Maria", amount: 500, status: "completed" },
+        { id: 4, customer: "John", amount: 800, status: "completed" }
+    ],
+    [
+        { id: 5, customer: "Pedro", amount: 300, status: "cancelled" },
+        { id: 6, customer: "Julia", amount: 150, status: "completed" }
+    ]
+];
+
+const resultModern = await processOrderGroupsModern(groupsModern);
+console.log("Resultado moderno:", resultModern);
+
+// -----------------------------------------------------------------------------
+// Exemplo de retorno esperado
+// -----------------------------------------------------------------------------
+/*
+[
+  {
+    groupName: "Group 1",
+    processedOrders: [
+      { id: 1, customer: "Ana", amount: 1000, status: "completed", tax: 100, finalAmount: 1100 },
+      { id: 2, customer: "Carlos", amount: 200, status: "pending", tax: 20, finalAmount: 220 }
+    ],
+    totalAmount: 1100,
+    completedCount: 1
+  },
+  {
+    groupName: "Group 2",
+    processedOrders: [
+      { id: 3, customer: "Maria", amount: 500, status: "completed", tax: 50, finalAmount: 550 },
+      { id: 4, customer: "John", amount: 800, status: "completed", tax: 80, finalAmount: 880 }
+    ],
+    totalAmount: 1430,
+    completedCount: 2
+  },
+  {
+    groupName: "Group 3",
+    processedOrders: [
+      { id: 5, customer: "Pedro", amount: 300, status: "cancelled", tax: 30, finalAmount: 330 },
+      { id: 6, customer: "Julia", amount: 150, status: "completed", tax: 15, finalAmount: 165 }
+    ],
+    totalAmount: 165,
+    completedCount: 1
+  }
+]
+*/
+
+// -----------------------------------------------------------------------------
+// Por que essa versão é mais moderna?
+// - usa Promise.all para rodar tarefas em paralelo
+// - usa map para transformar cada pedido em um resultado processado
+// - usa filter para separar pedidos concluídos
+// - usa reduce para somar valores
+// - deixa o código mais curto e mais declarativo
+// -----------------------------------------------------------------------------
+
 
 
 
