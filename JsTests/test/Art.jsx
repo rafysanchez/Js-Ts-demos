@@ -1,6 +1,23 @@
 import { useState, useMemo } from "react";
 import { Articles } from "./Articles.jsx";
 
+const parseDate = (value) => {
+  if (value instanceof Date) return value.getTime();
+  if (typeof value !== "string") return new Date(value).getTime();
+
+  const dateOnly = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value.trim());
+  if (dateOnly) {
+    return Date.UTC(Number(dateOnly[1]), Number(dateOnly[2]) - 1, Number(dateOnly[3]));
+  }
+
+  const localized = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(value.trim());
+  if (localized) {
+    return Date.UTC(Number(localized[3]), Number(localized[2]) - 1, Number(localized[1]));
+  }
+
+  return new Date(value).getTime();
+};
+
 export const App = ({ articles = [] }) => {
   const [sortBy, setSortBy] = useState("upvotes");
 
@@ -10,9 +27,7 @@ export const App = ({ articles = [] }) => {
     if (sortBy === "upvotes") {
       return list.sort((a, b) => b.upvotes - a.upvotes);
     } else {
-      return list.sort(
-        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-      );
+      return list.sort((a, b) => parseDate(b.date) - parseDate(a.date));
     }
   }, [articles, sortBy]);
 
