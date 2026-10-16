@@ -18,17 +18,26 @@ const parseDate = (value) => {
   return new Date(value).getTime();
 };
 
-export const App = ({ articles = [] }) => {
+const toTimestamp = (value) => {
+  const time = parseDate(value);
+  return Number.isNaN(time) ? -Infinity : time;
+};
+
+export const App = ({ articles }) => {
   const [sortBy, setSortBy] = useState("upvotes");
 
   const sortedArticles = useMemo(() => {
-    const list = [...articles];
+    const list = [...(articles ?? [])];
 
     if (sortBy === "upvotes") {
       return list.sort((a, b) => b.upvotes - a.upvotes);
-    } else {
-      return list.sort((a, b) => parseDate(b.date) - parseDate(a.date));
     }
+
+    if (sortBy === "date") {
+      return list.sort((a, b) => toTimestamp(b.date) - toTimestamp(a.date));
+    }
+
+    return list;
   }, [articles, sortBy]);
 
   return (

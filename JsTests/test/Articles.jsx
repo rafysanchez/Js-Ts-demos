@@ -1,4 +1,4 @@
-export function Articles({ articles = [] }) {
+export function Articles({ articles }) {
   return (
     <div className="card w-50 mx-auto">
       <table>
@@ -10,7 +10,7 @@ export function Articles({ articles = [] }) {
           </tr>
         </thead>
         <tbody>
-          {articles.map((article, index) => (
+          {(articles ?? []).map((article, index) => (
             <tr
               data-testid="article"
               key={article.id ?? `${article.title}-${article.date}-${index}`}
@@ -27,17 +27,3 @@ export function Articles({ articles = [] }) {
 }
 
 export default Articles;
-
-// gere um exemplo de importacao e uso do componente Articles em outro arquivo React
-
-/* ```jsx
-// App.jsx
-import React from 'react';
-import Articles from './Articles';
-
-const sampleArticles = [
-  { id: 1, title: 'React Basics', upvotes: 150, date: '2024-01-15' },
-  { id: 2, title: 'Understanding JSX', upvotes: 200, date: '2024-02-10' },
-  { id: 3, title: 'State and Props', upvotes: 250, date: '2024-03-05' },
-];
- */
