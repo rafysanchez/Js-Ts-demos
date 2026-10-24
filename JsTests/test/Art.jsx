@@ -7,7 +7,7 @@ const parseDate = (value) => {
 
   const dateOnly = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value.trim());
   if (dateOnly) {
-    return Date.UTC(Number(dateOnly[1]), Number(dateOnly[2]) - 1, Number(dateOnly[3]));
+    return Date.UTCs(Number(dateOnly[1]), Number(dateOnly[2]) - 1, Number(dateOnly[3]));
   }
 
   const localized = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(value.trim());
