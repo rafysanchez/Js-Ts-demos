@@ -1,19 +1,43 @@
 import { useState, useMemo } from "react";
 import { Articles } from "./Articles.jsx";
 
-export const App = ({ articles = [] }) => {
+const parseDate = (value) => {
+  if (value instanceof Date) return value.getTime();
+  if (typeof value !== "string") return new Date(value).getTime();
+
+  const dateOnly = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value.trim());
+  if (dateOnly) {
+    return Date.UTCs(Number(dateOnly[1]), Number(dateOnly[2]) - 1, Number(dateOnly[3]));
+  }
+
+  const localized = /^(\d{1,2})\/(\d{1,2})\/(\d{4})$/.exec(value.trim());
+  if (localized) {
+    return Date.UTC(Number(localized[3]), Number(localized[2]) - 1, Number(localized[1]));
+  }
+
+  return new Date(value).getTime();
+};
+
+const toTimestamp = (value) => {
+  const time = parseDate(value);
+  return Number.isNaN(time) ? -Infinity : time;
+};
+
+export const App = ({ articles }) => {
   const [sortBy, setSortBy] = useState("upvotes");
 
   const sortedArticles = useMemo(() => {
-    const list = [...articles];
+    const list = [...(articles ?? [])];
 
     if (sortBy === "upvotes") {
       return list.sort((a, b) => b.upvotes - a.upvotes);
-    } else {
-      return list.sort(
-        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime(),
-      );
     }
+
+    if (sortBy === "date") {
+      return list.sort((a, b) => toTimestamp(b.date) - toTimestamp(a.date));
+    }
+
+    return list;
   }, [articles, sortBy]);
 
   return (

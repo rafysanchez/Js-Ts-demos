@@ -34,3 +34,27 @@ function ProductSearch({ products = [] }) {
 }
 
 export default ProductSearch;
+
+// Example of how to import and use the ProductSearch component in another React file
+/* 
+// App.jsx
+import React from 'react';
+import ProductSearch from './ProductSearch';
+
+const sampleProducts = [
+  { id: 1, name: 'Apple', price: '$1' },
+  { id: 2, name: 'Banana', price: '$0.5' },
+  { id: 3, name: 'Cherry', price: '$2' },
+];
+
+function App() {
+  return (
+    <div>
+      <h1>Product Search</h1>
+      <ProductSearch products={sampleProducts} />
+    </div>
+  );
+}
+
+export default App; 
+*/
