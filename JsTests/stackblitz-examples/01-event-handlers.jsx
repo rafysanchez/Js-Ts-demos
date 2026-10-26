@@ -2,6 +2,7 @@
 // EVENT HANDLERS IN REACT
 // ============================================
 // () => {};
+
 import { useState } from "react";
 
 // Example 1: Basic Click Handler

@@ -1,7 +1,7 @@
 // estudo de async/await + Promise.all
 // objetivo: entender como processar várias tarefas ao mesmo tempo
 
-export { };
+export { }; // define o arquivo como modulo, evitando conflitos de escopo
 
 // 1) definimos o formato inicial das ordens
 // cada pedido tem: id, cliente, valor e status
