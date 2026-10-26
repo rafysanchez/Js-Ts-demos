@@ -25,6 +25,7 @@ function EventParameterExample() {
     console.log("Event:", event);
     console.log("Target:", event.target);
     console.log("Type:", event.type);
+    // outros eventos mais comuns: event.clientX, event.clientY, event.key, etc.
   };
 
   return <button onClick={handleClick}>Inspect Event</button>;
@@ -147,7 +148,25 @@ function MouseEventsExample() {
   );
 }
 
-// Example 10: Complete Interactive Counter
+// Example 10: Other Common Events
+function OtherCommonEventsExample() {
+  const [status, setStatus] = useState("Try the events below.");
+
+  return (
+    <div
+      onDoubleClick={() => setStatus("Double-click detected!")}
+      onMouseEnter={() => setStatus("Mouse entered!")}
+      onMouseLeave={() => setStatus("Mouse left!")}
+      style={{ padding: "20px", background: "#f0f0f0" }}
+    >
+      <p>Double-click here or move your mouse in and out.</p>
+      <p onCopy={() => setStatus("Text copied!")}>Select and copy this text.</p>
+      <p>Status: {status}</p>
+    </div>
+  );
+}
+
+// Example 11: Complete Interactive Counter
 function InteractiveCounter() {
   const [count, setCount] = useState(0);
 
